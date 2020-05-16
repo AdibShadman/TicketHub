@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +28,7 @@ public class RaffleAdapter extends ArrayAdapter<Raffle>
     }
     @NonNull
      @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
         LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
         View row = layoutInflater.inflate(mLayoutResourceID, parent, false);
@@ -39,12 +40,7 @@ public class RaffleAdapter extends ArrayAdapter<Raffle>
         TextView raffleDescription = row.findViewById(R.id.raffle_description);
         raffleDescription.setText(raffle.getDescription());
 
-        Button sellTickets = row.findViewById(R.id.sell_tickets);
-        Button  listTickets = row.findViewById((R.id.list_tickets));
-        Button editRaffle = row.findViewById(R.id.edit_raffle);
-        Button deleteRaffle = row.findViewById((R.id.delete_raffle));
-        Button selectWinner = row.findViewById(R.id.select_winner);
-
+       
         return row;
 
     }
