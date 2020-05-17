@@ -47,8 +47,4 @@ public class Raffle
     public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
-
-
-
-
 }

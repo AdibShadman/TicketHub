@@ -1,7 +1,5 @@
 package au.edu.utas.asornob.raffledrawingapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -17,34 +15,33 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class RaffleAdapter extends ArrayAdapter<Raffle>
-{
+public class CustomerAdapter extends ArrayAdapter<Customer> {
     private int mLayoutResourceID;
-    public RaffleAdapter(Context context, int resource, List<Raffle> objects)
+    public CustomerAdapter(Context context, int resource, List<Customer> objects)
     {
         super(context, resource, objects);
         this.mLayoutResourceID = resource;
     }
+
     @NonNull
-     @Override
+    @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
         LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
         View row = layoutInflater.inflate(mLayoutResourceID, parent, false);
 
-        Raffle raffle = this.getItem(position);
+        if(convertView != null)
+        {
 
-        TextView raffleName = row.findViewById(R.id.raffle_name);
-        raffleName.setText(raffle.getName());
-        TextView raffleDescription = row.findViewById(R.id.raffle_description);
-        raffleDescription.setText(raffle.getDescription());
+        }
 
-        //Button sellTickets = row.findViewById(R.id.sell_tickets);
+        Customer customer = this.getItem(position);
 
+        if(customer != null) {
+            // TextView txtcustomerName = View.findViewById(R.id.txtCustomerName);
+            //txtCustomerName.setText(customer.getName());
 
-
+        }
         return row;
-
     }
-
 }

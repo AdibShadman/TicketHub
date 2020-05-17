@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity
     }
     public void openCreateRaffleActivity()
     {
-        Intent intent = new Intent(this, CreateRaffle.class);
+        //Intent intent = new Intent(MainActivity.this, TempSell.class);
+        Intent intent = new Intent(this, TempSell.class);
         startActivity(intent);
     }
     

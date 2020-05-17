@@ -14,7 +14,7 @@ public class Database
     private static final String DATABASE_NAME = "RaffleDatabase";
 
     //The version of the database. Increment this whenever you change the /structure/ of the database
-    private static final int   DATABASE_VERSION   = 4;
+    private static final int   DATABASE_VERSION   = 6;
 
     //The connection to the database itself
     private SQLiteDatabase mDb;
@@ -56,7 +56,10 @@ public class Database
             // which does the actual work of opening the database.
             Log.d(TAG, "DatabaseHelper onCreate");
 
+
             db.execSQL(RaffleTable.CREATE_STATEMENT);
+            db.execSQL(TicketTable.CREATE_STATEMENT);
+            db.execSQL(CustomerTable.CREATE_STATEMENT);
 
         }
 

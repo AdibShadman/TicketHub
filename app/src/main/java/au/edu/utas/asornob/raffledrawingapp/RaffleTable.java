@@ -3,6 +3,8 @@ package au.edu.utas.asornob.raffledrawingapp;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.view.ViewDebug;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,10 @@ public class RaffleTable
         }
         else
         {
+            Log.d("ID: ", c.getString(c.getColumnIndex(KEY_ID)));
+            Log.d("ID: ", c.getString(c.getColumnIndex(KEY_NAME)));
+            Log.d("ID: ", c.getString(c.getColumnIndex(KEY_TICKET_PRICE)));
+
             Raffle raffle = new Raffle();
             raffle.setId(c.getInt(c.getColumnIndex(KEY_ID)));
             raffle.setName(c.getString(c.getColumnIndex(KEY_NAME)));
@@ -41,8 +47,6 @@ public class RaffleTable
             raffle.setTotalTickets(c.getInt(c.getColumnIndex(KEY_TOTAL_TICKETS)));
             raffle.setTicketPrice(c.getDouble(c.getColumnIndex(KEY_TICKET_PRICE)));
             return raffle;
-
-
         }
     }
     public static void insert(SQLiteDatabase database, Raffle raffle)
@@ -64,6 +68,7 @@ public class RaffleTable
             c.moveToFirst();
             //loop through until we are at the end of the list
             while (!c.isAfterLast()) {
+                Log.d("Run: ", "again");
                 Raffle raffle = createFromCursor(c);
                 results.add(raffle);
                 //increment the cursor
@@ -73,6 +78,24 @@ public class RaffleTable
 
         return results;
     }
+
+    public static Raffle selectRaffle(SQLiteDatabase db, int id)
+    {
+        Raffle result;
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_NAME+" WHERE "+ KEY_ID + "=" + id, null);
+        if(c != null)
+        {
+            c.moveToFirst();
+            if(c != null)
+            {
+                result = createFromCursor(c);
+                return result;
+            }
+        }
+
+        return null;
+    }
+
     public static void update(SQLiteDatabase db, Raffle raffle)
     {
         ContentValues values = new ContentValues();

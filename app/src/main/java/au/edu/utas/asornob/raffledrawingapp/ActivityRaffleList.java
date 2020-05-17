@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class ActivityRaffleList extends AppCompatActivity
 {
     private ListView raffleListView;
+    public static String PRICE_KEY = "PRICE"; //for ticket price
+
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,8 @@ public class ActivityRaffleList extends AppCompatActivity
         final RaffleAdapter raffleListAdapter = new RaffleAdapter(ActivityRaffleList.this,
                 R.layout.my_list_item, raffles);
         raffleListView.setAdapter(raffleListAdapter);
+
+
     }
 
 }
