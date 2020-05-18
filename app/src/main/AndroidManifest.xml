@@ -9,14 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelectedRaffle"></activity>
-        <activity android:name=".TicketSaleConfirm"></activity>
-        <activity android:name=".CustomerCreate" />
-        <activity android:name=".CustomerSelect" />
-        <activity android:name=".TicketSale" />
-        <activity android:name=".TempSell"/>
-        <activity android:name=".CreateRaffle" />
-        <activity android:name=".ActivityRaffleList" />
+        <activity android:name=".ActivityRaffleList"></activity>
+        <activity android:name=".CreateRaffle"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
