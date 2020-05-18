@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,22 +40,27 @@ public class TicketSale extends AppCompatActivity {
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
-        //database.execSQL(CustomerTable.CREATE_STATEMENT);
-        //database.execSQL(TicketTable.CREATE_STATEMENT);
 
-        Raffle insRaffle = new Raffle();
+        /*Raffle insRaffle = new Raffle();
         insRaffle.setName("wo");
         insRaffle.setDescription("wolo");
         insRaffle.setTotalTickets(4);
         insRaffle.setTicketPrice(1.5);
-        RaffleTable.insert(database, insRaffle);
+        RaffleTable.insert(database, insRaffle);*/
 
         List<Raffle> raffles = RaffleTable.selectAll(database);
 
         Bundle extras = getIntent().getExtras();
-        final int id = extras.getInt(TempSell.KEY_RAFFLE_ID);
-        Raffle raffle = RaffleTable.selectRaffle(database, raffles.get(0).getId());
+        //final int id = extras.getInt(TempSell.KEY_RAFFLE_ID, -1);
+        /*temp*/final int id = raffles.get(0).getId();
+        Raffle raffle = RaffleTable.selectRaffle(database, id);
 
+        //testing ticket insertion
+        ArrayList<Ticket> tickets = TicketTable.selectAll(database);
+            for(int i = 0; i < tickets.size(); i++) {
+                Ticket ticket = tickets.get(i);
+                Log.d("Ticket: ", "raffle- " + ticket.getRaffleId() + " ticket- " + ticket.getCustomer().getId());
+        }
 
         fieldQuantity = (EditText) findViewById(R.id.txtQuant);
         final TextView txtCost = findViewById(R.id.txtCost);
@@ -108,22 +114,26 @@ public class TicketSale extends AppCompatActivity {
         btnSellTicket.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Ticket ticket = new Ticket();
-
-                ticket.setPrice(price);
-                ticket.setPurchaseTime(new Date());
-                ticket.setCustomer(customer);
-                ticket.setRaffleId(id);
-
-                quantity = Integer.parseInt(fieldQuantity.getText().toString());
-                for (int i = 0; i < quantity; i++) {
-                    TicketTable.insert(database, ticket);
+                if(price == -1 || customer ==null || id == -1) {
+                    Log.d("Error: ", "Submit failed due to missing value");
                 }
+                else {
+                    Ticket ticket = new Ticket();
 
-                Toast.makeText(TicketSale.this, (quantity + "Ticket(s) sold"), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
-                startActivity(intent);
+                    ticket.setPrice(price);
+                    ticket.setPurchaseTime(new Date());
+                    ticket.setCustomer(customer);
+                    ticket.setRaffleId(id);
 
+                    quantity = Integer.parseInt(fieldQuantity.getText().toString());
+                    for (int i = 0; i < quantity; i++) {
+                        TicketTable.insert(database, ticket);
+                    }
+
+                    Toast.makeText(TicketSale.this, (quantity + "Ticket(s) sold"), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -134,7 +144,6 @@ public class TicketSale extends AppCompatActivity {
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
-
 
         if(requestCode == REQUEST_CUSTOMER)
         {

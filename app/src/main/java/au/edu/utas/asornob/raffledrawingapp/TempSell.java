@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class TempSell extends AppCompatActivity {
     public final static String KEY_RAFFLE_ID = "RaffleID";
-    final private static int VAL_PLACEHOLDER = 1;
+    final private static int VAL_PLACEHOLDER = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -15,22 +15,23 @@ public class TicketTable {
     public static final String CUSTOMER_ID = "FK_customer";
 
     public static final String CREATE_STATEMENT = //"DROP TABLE "
-            //+ TABLE_NAME + "; "
+            //+ TABLE_NAME + "; " +
             "CREATE TABLE "
             + TABLE_NAME
             + " (" + KEY_ID + " integer primary key autoincrement, "
             //+ KEY_PURCHASE_TIME + " datetime not null, "
             + KEY_PRICE + " double not null, "
-            + RAFFLE_ID + " integer, " //not null
-            + CUSTOMER_ID + "integer" //not null
+            + RAFFLE_ID + " integer not null, " //not null
+            + CUSTOMER_ID + " integer not null" //not null
             + " );";
 
     public static void insert(SQLiteDatabase database, Ticket ticket) {
         ContentValues values = new ContentValues();
         //values.put(KEY_PURCHASE_TIME, ticket.getPurchaseTime().toString());
         values.put(KEY_PRICE, ticket.getPrice());
+        values.put(RAFFLE_ID, ticket.getRaffleId());
+        values.put(CUSTOMER_ID, ticket.getCustomer().getId());
         database.insert(TABLE_NAME, null, values);
-
     }
 
     public static Ticket createFromCursor(Cursor c, SQLiteDatabase db)
