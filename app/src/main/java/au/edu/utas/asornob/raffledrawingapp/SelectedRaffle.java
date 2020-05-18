@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 
 public class SelectedRaffle extends AppCompatActivity
 {
+    public static final String KEY_RAFFLE_ID = "raffleId";
+    public static final int REQUEST_SALE = 0;
 
     int raffleId;
     double ticketPriceDouble;
@@ -29,7 +31,7 @@ public class SelectedRaffle extends AppCompatActivity
     Button editRaffle;
     Button deleteRaffle;
     Button listTickets;
-    Button sellTickets;
+    private Button btnSellTickets;
     Button selectWinner;
 
 
@@ -68,7 +70,15 @@ public class SelectedRaffle extends AppCompatActivity
       // String startDateString2 = new SimpleDateFormat("yyyy-MM-dd").format(startDateString);
         raffleStartDate.setText(startDateString);
 
-
+        btnSellTickets = (Button) findViewById(R.id.sell_tickets);
+        btnSellTickets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SelectedRaffle.this, TicketSale.class);
+                i.putExtra(KEY_RAFFLE_ID, raffleId);
+                startActivityForResult(i, REQUEST_SALE);
+            }
+        });
     }
 
 

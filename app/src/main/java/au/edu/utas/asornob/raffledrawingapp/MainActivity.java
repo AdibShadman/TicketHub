@@ -17,13 +17,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD
-        
-        //deleteRaffles();
-=======
-
-        deleteRaffles();
->>>>>>> edit_delete_raffle
 
         addButton = (Button) findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -47,9 +40,6 @@ public class MainActivity extends AppCompatActivity
     }
     public void openCreateRaffleActivity()
     {
-        //Intent intent = new Intent(MainActivity.this, TempSell.class);
-        Intent intent = new Intent(this, TempSell.class);
-        startActivity(intent);
     }
 
         public void openActivityRaffleList()
@@ -61,7 +51,6 @@ public class MainActivity extends AppCompatActivity
     {
         Database databaseConnection = new Database(this);
         final SQLiteDatabase db = databaseConnection.open();
-
 
         //RaffleTable.delete(db);
     }

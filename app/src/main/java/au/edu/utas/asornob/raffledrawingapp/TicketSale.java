@@ -51,16 +51,15 @@ public class TicketSale extends AppCompatActivity {
         List<Raffle> raffles = RaffleTable.selectAll(database);
 
         Bundle extras = getIntent().getExtras();
-        //final int id = extras.getInt(TempSell.KEY_RAFFLE_ID, -1);
-        /*temp*/final int id = raffles.get(0).getId();
+        final int id = extras.getInt(SelectedRaffle.KEY_RAFFLE_ID, -1);
         Raffle raffle = RaffleTable.selectRaffle(database, id);
 
         //testing ticket insertion
-        ArrayList<Ticket> tickets = TicketTable.selectAll(database);
+        /*ArrayList<Ticket> tickets = TicketTable.selectAll(database);
             for(int i = 0; i < tickets.size(); i++) {
                 Ticket ticket = tickets.get(i);
-                Log.d("Ticket: ", "raffle- " + ticket.getRaffleId() + " ticket- " + ticket.getCustomer().getId());
-        }
+                sLog.d("Ticket: ", "raffle- " + ticket.getRaffleId() + " ticket- " + ticket.getCustomer().getId());
+        }*/
 
         fieldQuantity = (EditText) findViewById(R.id.txtQuant);
         final TextView txtCost = findViewById(R.id.txtCost);
@@ -131,8 +130,9 @@ public class TicketSale extends AppCompatActivity {
                     }
 
                     Toast.makeText(TicketSale.this, (quantity + "Ticket(s) sold"), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
+                    //startActivity(intent);
+                    finish();
                 }
             }
         });

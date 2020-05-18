@@ -25,7 +25,9 @@ public class RaffleTable
 
 
 
-    public static final String CREATE_STATEMENT = "CREATE TABLE "
+    public static final String CREATE_STATEMENT = //"DROP TABLE "
+            //+ TABLE_NAME + "; " +
+            "CREATE TABLE "
             + TABLE_NAME
             + " (" + KEY_ID + " integer primary key autoincrement, "
             + KEY_NAME + " string not null, "
