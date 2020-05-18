@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.ViewDebug;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import au.edu.utas.asornob.raffledrawingapp.Raffle;
 
@@ -18,6 +19,11 @@ public class RaffleTable
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_TOTAL_TICKETS = "total_tickets";
     public static final String KEY_TICKET_PRICE = "ticket_price";
+    public static final String KEY_START_DATE = "start_date";
+    public static final String KEY_END_DATE = "end_date";
+    public static final String KEY_TYPE = "type";
+
+
 
     public static final String CREATE_STATEMENT = "CREATE TABLE "
             + TABLE_NAME
@@ -25,7 +31,10 @@ public class RaffleTable
             + KEY_NAME + " string not null, "
             + KEY_DESCRIPTION + " string not null, "
             + KEY_TOTAL_TICKETS + " int not null, "
-            + KEY_TICKET_PRICE + " double not null "
+            + KEY_TICKET_PRICE + " double not null, "
+            + KEY_START_DATE + " long not null, "
+            + KEY_END_DATE + " long not null, "
+            + KEY_TYPE + " string not null "
             +" );";
 
     public static Raffle createFromCursor(Cursor c)
@@ -46,6 +55,10 @@ public class RaffleTable
             raffle.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
             raffle.setTotalTickets(c.getInt(c.getColumnIndex(KEY_TOTAL_TICKETS)));
             raffle.setTicketPrice(c.getDouble(c.getColumnIndex(KEY_TICKET_PRICE)));
+            raffle.setStartDate(new Date(c.getLong(c.getColumnIndex(KEY_START_DATE))));
+            raffle.setEndDate(new Date(c.getLong(c.getColumnIndex(KEY_END_DATE))));
+            raffle.setRaffleType(c.getString(c.getColumnIndex(KEY_TYPE)));
+
             return raffle;
         }
     }
@@ -56,6 +69,9 @@ public class RaffleTable
         values.put(KEY_DESCRIPTION, raffle.getDescription());
         values.put(KEY_TOTAL_TICKETS, raffle.getTotalTickets());
         values.put(KEY_TICKET_PRICE, raffle.getTicketPrice());
+        values.put(KEY_START_DATE, raffle.getStartDate().getTime());
+        values.put(KEY_END_DATE, raffle.getEndDate().getTime());
+        values.put(KEY_TYPE, raffle.getRaffleType());
         database.insert(TABLE_NAME, null, values);
 
     }
@@ -96,7 +112,12 @@ public class RaffleTable
         return null;
     }
 
-    public static void update(SQLiteDatabase db, Raffle raffle)
+    public static void deleteById(SQLiteDatabase database, Raffle raffle)
+    {
+        database.delete(TABLE_NAME, KEY_ID +"=" + raffle.getId(), null);
+    }
+
+   /* public static void update(SQLiteDatabase db, Raffle raffle)
     {
         ContentValues values = new ContentValues();
         values.put(KEY_ID, raffle.getId());
@@ -104,9 +125,10 @@ public class RaffleTable
         values.put(KEY_DESCRIPTION, raffle.getDescription());
         values.put(KEY_TOTAL_TICKETS, raffle.getTotalTickets());
         values.put(KEY_TICKET_PRICE, raffle.getTicketPrice());
+        values.put(KEY_START_DATE, raffle.getStartDate());
         db.update(TABLE_NAME, values, KEY_ID + "= ?",
                 new String[]{ ""+raffle.getId() });
-    }
+    }*/
 
     static void delete(SQLiteDatabase database)
     {
