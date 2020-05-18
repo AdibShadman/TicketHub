@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RaffleDrawingApp</string>
+    <string name="txtDefQuant">1</string>
 </resources>
