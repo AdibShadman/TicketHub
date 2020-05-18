@@ -2,6 +2,7 @@ package au.edu.utas.asornob.raffledrawingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,17 +24,22 @@ public class CustomerSelect extends AppCompatActivity {
         final SQLiteDatabase database = databaseConnection.open();
 
         ArrayList<Customer> customers = CustomerTable.selectAll(database);
-        /*ArrayList<String> customerNames = new ArrayList<String>();
-        for(int i = 0; i< customers.size(); i++){
-            customerNames.add(customers.get(i).getName());
-        }*/
-        CustomerAdapter myListAdapter = new CustomerAdapter(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,
+
+        CustomerAdapter customerAdapter = new CustomerAdapter(
+                this,
                 customers
         );
 
         ListView listCustomer = findViewById(R.id.listCustomers);
-        listCustomer.setAdapter(myListAdapter);
+        listCustomer.setAdapter(customerAdapter);
+    }
+
+    public void ReturnIntent(Customer customer)
+    {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(KEY_ID, customer.getId());
+
+        setResult(VALID_CUSTOMER, returnIntent);
+        finish();
     }
 }

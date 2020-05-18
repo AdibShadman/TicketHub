@@ -96,8 +96,7 @@ public class TicketSale extends AppCompatActivity {
 
                 CustomerTable.insert(database, customer);*/
                 Intent i = new Intent(TicketSale.this, CustomerSelect.class);
-                //startActivityForResult(i, REQUEST_CUSTOMER);
-                startActivity(i);
+                startActivityForResult(i, REQUEST_CUSTOMER);
             }
 
 
@@ -129,24 +128,25 @@ public class TicketSale extends AppCompatActivity {
         });
     }
 
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
 
+
         if(requestCode == REQUEST_CUSTOMER)
         {
             switch(resultCode) {
                 case CustomerSelect.VALID_CUSTOMER:
-                    int customerId = Integer.parseInt(data.getStringExtra(CustomerSelect.KEY_ID));
-                    customer = CustomerTable.selectCustomer(database, -1);
+                    int customerId = data.getIntExtra(CustomerSelect.KEY_ID, -1);
+                    customer = CustomerTable.selectCustomer(database, customerId);
 
                     TextView txtCustomer = findViewById(R.id.txtCustomer);
                     txtCustomer.setText(customer.getName());
                     break;
             }
         }
-    }*/
+    }
 }
