@@ -79,8 +79,16 @@ public class TicketSale extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                quantity = Integer.parseInt(fieldQuantity.getText().toString());
-                txtCost.setText(("$" + (Double) (quantity * price)).toString());
+                String quantityString = fieldQuantity.getText().toString();
+                if(quantityString.equals("")) {
+                    txtCost.setText("$0.00");
+                }
+                else
+                {
+                    quantity = Integer.parseInt(quantityString);
+                    txtCost.setText(("$" + (Double) (quantity * price)).toString());
+                }
+
             }
 
             @Override
@@ -113,7 +121,8 @@ public class TicketSale extends AppCompatActivity {
         btnSellTicket.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(price == -1 || customer ==null || id == -1) {
+                String quantityString = fieldQuantity.getText().toString();
+                if(price == -1 || customer ==null || id == -1 || quantityString.equals("")) {
                     Log.d("Error: ", "Submit failed due to missing value");
                 }
                 else {
