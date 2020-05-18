@@ -1,9 +1,12 @@
 package au.edu.utas.asornob.raffledrawingapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import static au.edu.utas.asornob.raffledrawingapp.RaffleTable.KEY_ID;
 
 public class Database
 {
@@ -69,6 +72,9 @@ public class Database
             db.execSQL("DROP TABLE IF EXISTS " + RaffleTable.TABLE_NAME);
             onCreate(db); //this will recreate the database as if it were new
         }
+
+
+
     }
 
 }

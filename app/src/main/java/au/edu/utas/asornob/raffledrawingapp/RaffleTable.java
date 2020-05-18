@@ -94,18 +94,21 @@ public class RaffleTable
         database.delete(TABLE_NAME, KEY_ID +"=" + raffle.getId(), null);
     }
 
-   /* public static void update(SQLiteDatabase db, Raffle raffle)
+    public static void update(SQLiteDatabase database, Raffle raffle)
     {
         ContentValues values = new ContentValues();
+
         values.put(KEY_ID, raffle.getId());
         values.put(KEY_NAME, raffle.getName());
         values.put(KEY_DESCRIPTION, raffle.getDescription());
-        values.put(KEY_TOTAL_TICKETS, raffle.getTotalTickets());
         values.put(KEY_TICKET_PRICE, raffle.getTicketPrice());
-        values.put(KEY_START_DATE, raffle.getStartDate());
-        db.update(TABLE_NAME, values, KEY_ID + "= ?",
-                new String[]{ ""+raffle.getId() });
-    }*/
+        values.put(KEY_TYPE, raffle.getRaffleType());
+        values.put(KEY_START_DATE, raffle.getStartDate().getTime());
+
+        database.update(TABLE_NAME, values, KEY_ID +"= ?",new String[] {""+raffle.getId()});
+
+    }
+
 
     static void delete(SQLiteDatabase database)
     {

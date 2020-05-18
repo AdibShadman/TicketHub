@@ -7,17 +7,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class SelectedRaffle extends AppCompatActivity
 {
 
     int raffleId;
     double ticketPriceDouble;
+    String startDateString2;
 
     TextView raffleName;
     TextView raffleDescription;
@@ -39,15 +45,16 @@ public class SelectedRaffle extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_raffle);
 
-        deleteRaffle = (Button) findViewById(R.id.delete_raffle);
-        deleteRaffle.setOnClickListener(new View.OnClickListener()
-        {
+
+
+        editRaffle = (Button) findViewById(R.id.edit_raffle);
+        editRaffle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                deleteRaffle();
+            public void onClick(View v) {
+                editRaffle();
             }
         });
+
         raffleName = (TextView) findViewById(R.id.view_raffle_name);
         raffleDescription = (TextView) findViewById(R.id.raffle_description_view);
         ticketPrice = (TextView) findViewById(R.id.view_ticket_price);
@@ -64,10 +71,45 @@ public class SelectedRaffle extends AppCompatActivity
         String StringTicketPrice = Double.toString(ticketPriceDouble);
         ticketPrice.setText(StringTicketPrice);
 
-        String startDateString = getIntent().getStringExtra("start_date");
-      // String startDateString2 = new SimpleDateFormat("yyyy-MM-dd").format(startDateString);
-        raffleStartDate.setText(startDateString);
+        final String startDateString = getIntent().getStringExtra("start_date");
+        Log.d("tag", startDateString);
+        startDateString2 = new SimpleDateFormat("yyyy-MM-dd").format(new Date(startDateString));
+        raffleStartDate.setText(startDateString2);
 
+        deleteRaffle = (Button) findViewById(R.id.delete_raffle);
+        deleteRaffle.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date deletedStartDate = new Date();
+                try
+                {
+                    deletedStartDate = newDateFormat.parse(startDateString2);
+                }
+                catch(ParseException pe)
+                {
+
+
+                }
+               Date now = new Date(System.currentTimeMillis());
+                if((deletedStartDate).after(now))
+                {
+                    deleteRaffle();
+                }
+                else
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(SelectedRaffle.this);
+                    alert.setTitle("Can't Delete Raffle");
+                    alert.setMessage("This raffle has already been started");
+                    alert.setPositiveButton("OK",null);
+                    alert.show();
+
+                }
+
+            }
+        });
 
     }
 
@@ -106,4 +148,18 @@ public class SelectedRaffle extends AppCompatActivity
                 .setPositiveButton("Confirm", dialogClickListener)
                 .setNegativeButton("Cancel", null).show();
     }
+
+    private void editRaffle()
+    {
+        Intent intent = new Intent(SelectedRaffle.this, EditRaffle.class);
+        intent.putExtra("id",raffleId);
+        intent.putExtra("name", raffleName.getText().toString());
+        intent.putExtra("description", raffleDescription.getText().toString());
+        intent.putExtra("ticket_price", ticketPrice.getText().toString());
+        intent.putExtra("start_date", raffleStartDate.getText().toString());
+        intent.putExtra("raffle_type", raffleType.getText().toString());
+
+        startActivity(intent);
+    }
+
 }

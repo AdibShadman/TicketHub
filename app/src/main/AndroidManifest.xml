@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelectedRaffle"></activity>
+        <activity android:name=".EditRaffle" />
+        <activity android:name=".SelectedRaffle" />
         <activity android:name=".ActivityRaffleList" />
         <activity android:name=".CreateRaffle" />
         <activity android:name=".MainActivity">
