@@ -14,7 +14,7 @@
         <activity android:name=".CustomerCreate" />
         <activity android:name=".CustomerSelect" />
         <activity android:name=".TicketSale" />
-        <activity android:name=".TempSell"/>
+        <activity android:name=".TicketList" />
         <activity android:name=".CreateRaffle" />
         <activity android:name=".ActivityRaffleList" />
         <activity android:name=".MainActivity">

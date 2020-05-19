@@ -58,7 +58,7 @@ public class TicketSale extends AppCompatActivity {
         /*ArrayList<Ticket> tickets = TicketTable.selectAll(database);
             for(int i = 0; i < tickets.size(); i++) {
                 Ticket ticket = tickets.get(i);
-                sLog.d("Ticket: ", "raffle- " + ticket.getRaffleId() + " ticket- " + ticket.getCustomer().getId());
+                Log.d("Ticket: ", "raffle- " + ticket.getRaffleId() + " ticket- " + ticket.getCustomer().getId());
         }*/
 
         fieldQuantity = (EditText) findViewById(R.id.txtQuant);

@@ -56,7 +56,6 @@ public class Database
             // which does the actual work of opening the database.
             Log.d(TAG, "DatabaseHelper onCreate");
 
-
             db.execSQL(RaffleTable.CREATE_STATEMENT);
             db.execSQL(TicketTable.CREATE_STATEMENT);
             db.execSQL(CustomerTable.CREATE_STATEMENT);
