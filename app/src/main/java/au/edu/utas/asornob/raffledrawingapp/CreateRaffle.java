@@ -149,8 +149,10 @@ public class CreateRaffle extends AppCompatActivity
 
             }
         };
+
                 addRaffleButtonInRaffleForm = (Button) findViewById(R.id.add_raffle_button);
-                addRaffleButtonInRaffleForm.setOnClickListener(new View.OnClickListener() {
+                addRaffleButtonInRaffleForm.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -158,15 +160,12 @@ public class CreateRaffle extends AppCompatActivity
                 raffleDescription = (EditText) findViewById(R.id.raffle_entry_description);
                 raffleTotalTickets = (EditText) findViewById(R.id.raffle_entry_total_tickets);
                 raffleTicketPrice = (EditText) findViewById(R.id.raffle_ticket_price);
-
-
-
                 raffleType = (EditText) findViewById(R.id.raffle_type);
 
                 if (!canSubmit())
                 {
                     new AlertDialog.Builder(CreateRaffle.this).setTitle("Raffle Requires More Information")
-                            .setMessage("Entries Must Include: Raffle Name, Description, TicketPrice,Total Tickets, Raffle Type, Start Date and End date")
+                            .setMessage("Raffle form Must Include: Raffle Name, Description, TicketPrice,Total Tickets, Raffle Type, Start Date and End date")
                             .setPositiveButton("Okay", null).show();
                 }
                 else
@@ -190,7 +189,6 @@ public class CreateRaffle extends AppCompatActivity
                         {
                             newStartDate = newDateFormat.parse(startDate.getText().toString());
                             newEndDate = newDateFormat.parse(endDate.getText().toString());
-
 
                         }
                         catch(ParseException pe)

@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     }
     public void openCreateRaffleActivity()
     {
+        Intent intent = new Intent(this, CreateRaffle.class);
+        startActivity(intent);
     }
 
         public void openActivityRaffleList()

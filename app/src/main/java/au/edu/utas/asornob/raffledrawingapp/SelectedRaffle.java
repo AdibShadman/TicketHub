@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SelectedRaffle extends AppCompatActivity
 {
@@ -33,6 +35,7 @@ public class SelectedRaffle extends AppCompatActivity
     private Button btnListTickets;
     private Button btnSellTickets;
     Button selectWinner;
+    String startDateString2;
 
 
     @Override
@@ -40,6 +43,14 @@ public class SelectedRaffle extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_raffle);
+        editRaffle = (Button) findViewById(R.id.edit_raffle);
+
+        editRaffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editRaffle();
+            }
+        });
 
         deleteRaffle = (Button) findViewById(R.id.delete_raffle);
         deleteRaffle.setOnClickListener(new View.OnClickListener()
@@ -47,7 +58,32 @@ public class SelectedRaffle extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                deleteRaffle();
+                SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date deletedStartDate = new Date();
+                try
+                {
+                    deletedStartDate = newDateFormat.parse(startDateString2);
+                }
+                catch(ParseException pe)
+                {
+
+
+                }
+                Date now = new Date(System.currentTimeMillis());
+                if((deletedStartDate).after(now))
+                {
+                    deleteRaffle();
+                }
+                else
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(SelectedRaffle.this);
+                    alert.setTitle("Can't Delete Raffle");
+                    alert.setMessage("This raffle has already been started");
+                    alert.setPositiveButton("OK",null);
+                    alert.show();
+
+                }
+
             }
         });
         raffleName = (TextView) findViewById(R.id.view_raffle_name);
@@ -67,8 +103,8 @@ public class SelectedRaffle extends AppCompatActivity
         ticketPrice.setText(StringTicketPrice);
 
         String startDateString = getIntent().getStringExtra("start_date");
-      // String startDateString2 = new SimpleDateFormat("yyyy-MM-dd").format(startDateString);
-        raffleStartDate.setText(startDateString);
+        startDateString2 = new SimpleDateFormat("yyyy-MM-dd").format(new Date(startDateString));
+        raffleStartDate.setText(startDateString2);
 
         btnListTickets = (Button) findViewById(R.id.sell_tickets);
         btnListTickets.setOnClickListener(new View.OnClickListener() {
@@ -125,5 +161,18 @@ public class SelectedRaffle extends AppCompatActivity
                 .setMessage("Are you sure you want to delete this raffle?")
                 .setPositiveButton("Confirm", dialogClickListener)
                 .setNegativeButton("Cancel", null).show();
+    }
+
+    private void editRaffle()
+    {
+        Intent intent = new Intent(SelectedRaffle.this, EditRaffle.class);
+        intent.putExtra("id",raffleId);
+        intent.putExtra("name", raffleName.getText().toString());
+        intent.putExtra("description", raffleDescription.getText().toString());
+        intent.putExtra("ticket_price", ticketPrice.getText().toString());
+        intent.putExtra("start_date", raffleStartDate.getText().toString());
+        intent.putExtra("raffle_type", raffleType.getText().toString());
+
+        startActivity(intent);
     }
 }

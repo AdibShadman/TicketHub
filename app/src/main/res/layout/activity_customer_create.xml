@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".CustomerCreate">
 
-    <TextView
-        android:id="@+id/txtEmailLbl2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Phone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436" />
-
     <EditText
         android:id="@+id/customer_name"
         android:layout_width="wrap_content"
@@ -27,10 +15,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.144" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <EditText
         android:id="@+id/customer_email"
@@ -41,34 +29,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.631"
+        app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.284" />
-
-    <TextView
-        android:id="@+id/txtNameLbl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155" />
-
-    <TextView
-        android:id="@+id/txtEmailLbl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.119"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.296" />
+        app:layout_constraintVertical_bias="0.282" />
 
     <EditText
         android:id="@+id/customer_phone"
@@ -79,10 +43,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.631"
+        app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428" />
+        app:layout_constraintVertical_bias="0.434" />
 
     <Button
         android:id="@+id/add_customer_button"
