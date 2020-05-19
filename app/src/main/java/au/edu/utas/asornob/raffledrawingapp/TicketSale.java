@@ -55,11 +55,11 @@ public class TicketSale extends AppCompatActivity {
         Raffle raffle = RaffleTable.selectRaffle(database, id);
 
         //testing ticket insertion
-        ArrayList<Ticket> tickets = TicketTable.selectAll(database);
+        /*ArrayList<Ticket> tickets = TicketTable.selectAll(database);
             for(int i = 0; i < tickets.size(); i++) {
                 Ticket ticket = tickets.get(i);
                 Log.d("Ticket: ", "raffle- " + ticket.getRaffleId() + " ticket- " + ticket.getCustomer().getId());
-        }
+        }*/
 
         fieldQuantity = (EditText) findViewById(R.id.txtQuant);
         final TextView txtCost = findViewById(R.id.txtCost);
@@ -73,8 +73,7 @@ public class TicketSale extends AppCompatActivity {
 
         fieldQuantity.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
@@ -103,12 +102,12 @@ public class TicketSale extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //placeholder
-                customer = new Customer();
+                /*customer = new Customer();
                 customer.setName("Balley");
                 customer.setEmail("Balley@all.com");
                 customer.setPhone("0444 444 444");
 
-                CustomerTable.insert(database, customer);
+                CustomerTable.insert(database, customer);*/
                 Intent i = new Intent(TicketSale.this, CustomerSelect.class);
                 startActivityForResult(i, REQUEST_CUSTOMER);
             }

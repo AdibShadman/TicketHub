@@ -30,7 +30,7 @@ public class SelectedRaffle extends AppCompatActivity
 
     Button editRaffle;
     Button deleteRaffle;
-    Button listTickets;
+    private Button btnListTickets;
     private Button btnSellTickets;
     Button selectWinner;
 
@@ -70,13 +70,23 @@ public class SelectedRaffle extends AppCompatActivity
       // String startDateString2 = new SimpleDateFormat("yyyy-MM-dd").format(startDateString);
         raffleStartDate.setText(startDateString);
 
-        btnSellTickets = (Button) findViewById(R.id.sell_tickets);
-        btnSellTickets.setOnClickListener(new View.OnClickListener() {
+        btnListTickets = (Button) findViewById(R.id.sell_tickets);
+        btnListTickets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SelectedRaffle.this, TicketSale.class);
                 i.putExtra(KEY_RAFFLE_ID, raffleId);
                 startActivityForResult(i, REQUEST_SALE);
+            }
+        });
+
+        btnListTickets = (Button) findViewById(R.id.list_tickets);
+        btnListTickets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SelectedRaffle.this, TicketList.class);
+                i.putExtra(KEY_RAFFLE_ID, raffleId);
+                startActivity(i);
             }
         });
     }

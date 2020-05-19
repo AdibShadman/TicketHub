@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, ActivityRaffleList.class);
             startActivity(intent);
         }
-    private void  deleteRaffles()
-    {
+
+    private void deleteRaffles() {
         Database databaseConnection = new Database(this);
         final SQLiteDatabase db = databaseConnection.open();
 
-        //RaffleTable.delete(db);
+        RaffleTable.delete(db);
     }
 }
