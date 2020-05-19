@@ -14,9 +14,15 @@ public class MainActivity extends AppCompatActivity
     private Button listViewButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+      /*  Database databaseConnection = new Database(this);
+        final SQLiteDatabase db = databaseConnection.open();
+        db.execSQL(TicketTable.CREATE_STATEMENT);
+        db.execSQL(CustomerTable.CREATE_STATEMENT);*/
 
         addButton = (Button) findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
