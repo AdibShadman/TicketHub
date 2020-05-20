@@ -14,7 +14,8 @@ import android.widget.Toast;
 
 public class CustomerCreate extends AppCompatActivity
 {
-
+    public static final int VALID_CUSTOMER = 1;
+    public final static String KEY_ID = "id";
     private EditText customerName;
     private EditText customerEmail;
     private EditText customerPhone;
@@ -58,12 +59,16 @@ public class CustomerCreate extends AppCompatActivity
                     customer.setName(stringCustomerName);
                     customer.setEmail(stringCustomerEmail);
                     customer.setPhone(stringCustomerPhone);
+                    int id = CustomerTable.insert(database, customer);
 
-                    CustomerTable.insert(database, customer);
                     Toast.makeText(CustomerCreate.this, "New Customer inserted", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CustomerCreate.this, CustomerSelect.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(CustomerCreate.this, CustomerSelect.class);
+                    //startActivity(intent);
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra(KEY_ID, id);
 
+                    setResult(VALID_CUSTOMER, returnIntent);
+                    finish();
                 }
 
             }

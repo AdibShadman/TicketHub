@@ -25,12 +25,12 @@ public class CustomerTable {
             + KEY_PHONE + " string not null"
             +" );";
 
-    public static void insert(SQLiteDatabase database, Customer customer) {
+    public static int insert(SQLiteDatabase database, Customer customer) {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, customer.getName());
         values.put(KEY_EMAIL, customer.getEmail());
         values.put(KEY_PHONE, customer.getPhone());
-        database.insert(TABLE_NAME, null, values);
+        return (int) database.insert(TABLE_NAME, null, values);
     }
 
     public static Customer createFromCursor(Cursor c)
