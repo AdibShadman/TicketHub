@@ -3,6 +3,7 @@ package au.edu.utas.asornob.raffledrawingapp;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.util.Log;
 import android.view.ViewDebug;
 
@@ -22,6 +23,7 @@ public class RaffleTable
     public static final String KEY_START_DATE = "start_date";
     public static final String KEY_END_DATE = "end_date";
     public static final String KEY_TYPE = "type";
+    public static final String KEY_PHOTO = "photo";
 
 
 
@@ -36,7 +38,8 @@ public class RaffleTable
             + KEY_TICKET_PRICE + " double not null, "
             + KEY_START_DATE + " long not null, "
             + KEY_END_DATE + " long not null, "
-            + KEY_TYPE + " string not null "
+            + KEY_TYPE + " string not null, "
+            + KEY_PHOTO + " blob "
             +" );";
 
     public static Raffle createFromCursor(Cursor c)
@@ -47,9 +50,6 @@ public class RaffleTable
         }
         else
         {
-            Log.d("ID: ", c.getString(c.getColumnIndex(KEY_ID)));
-            Log.d("ID: ", c.getString(c.getColumnIndex(KEY_NAME)));
-            Log.d("ID: ", c.getString(c.getColumnIndex(KEY_TICKET_PRICE)));
 
             Raffle raffle = new Raffle();
             raffle.setId(c.getInt(c.getColumnIndex(KEY_ID)));
@@ -61,6 +61,15 @@ public class RaffleTable
             raffle.setEndDate(new Date(c.getLong(c.getColumnIndex(KEY_END_DATE))));
             raffle.setRaffleType(c.getString(c.getColumnIndex(KEY_TYPE)));
 
+
+            String uri;
+
+            if(c.getString(c.getColumnIndex(KEY_PHOTO)) != null)
+            {
+                uri = c.getString(c.getColumnIndex(KEY_PHOTO));
+                Uri photo = Uri.parse(uri);
+                raffle.setPhoto(photo);
+            }
             return raffle;
         }
     }
@@ -74,6 +83,10 @@ public class RaffleTable
         values.put(KEY_START_DATE, raffle.getStartDate().getTime());
         values.put(KEY_END_DATE, raffle.getEndDate().getTime());
         values.put(KEY_TYPE, raffle.getRaffleType());
+        if(raffle.getPhoto() != null)
+        {
+            values.put(KEY_PHOTO,raffle.getPhoto().toString());
+        }
         database.insert(TABLE_NAME, null, values);
 
     }

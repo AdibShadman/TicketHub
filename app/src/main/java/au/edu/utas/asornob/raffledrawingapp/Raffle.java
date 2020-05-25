@@ -1,5 +1,7 @@
 package au.edu.utas.asornob.raffledrawingapp;
 
+import android.net.Uri;
+
 import java.util.Date;
 
 public class Raffle
@@ -15,6 +17,7 @@ public class Raffle
   private Date startDate;
   private Date endDate;
   private String raffleType;
+  private Uri photo;
 
 
     public int getId() {
@@ -76,6 +79,11 @@ public class Raffle
 
      public void setRaffleType(String raffleType) { this.raffleType = raffleType; }
 
+    public Uri getPhoto() {
+        return photo;
+    }
 
-
+    public void setPhoto(Uri photo) {
+        this.photo = photo;
+    }
 }

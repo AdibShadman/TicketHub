@@ -1,29 +1,36 @@
 package au.edu.utas.asornob.raffledrawingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.nfc.Tag;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,6 +38,7 @@ import java.util.Date;
 
 public class CreateRaffle extends AppCompatActivity
 {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     private Button addRaffleButtonInRaffleForm;
 
     private EditText raffleName;
@@ -42,6 +50,10 @@ public class CreateRaffle extends AppCompatActivity
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private DatePickerDialog.OnDateSetListener mDateSetListener2;
     private EditText raffleType;
+    private ImageView image;
+    private Uri currentPhotoUri;
+    private String currentPhotoPath;
+    private Button imageButton;
 
 
     @Override
@@ -52,6 +64,18 @@ public class CreateRaffle extends AppCompatActivity
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
 
+
+        imageButton=(Button)findViewById(R.id.image_button);
+        imageButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                requestToTakeAPicture();
+            }
+        });
+
+        image = (ImageView)findViewById(R.id.image_view);
 
         startDate = (TextView) findViewById(R.id.start_date_text_view);
         startDate.setOnClickListener(new View.OnClickListener()
@@ -162,6 +186,9 @@ public class CreateRaffle extends AppCompatActivity
                 raffleTicketPrice = (EditText) findViewById(R.id.raffle_ticket_price);
                 raffleType = (EditText) findViewById(R.id.raffle_type);
 
+
+
+
                 if (!canSubmit())
                 {
                     new AlertDialog.Builder(CreateRaffle.this).setTitle("Raffle Requires More Information")
@@ -205,6 +232,7 @@ public class CreateRaffle extends AppCompatActivity
                         raffle.setStartDate(newStartDate);
                         raffle.setEndDate(newEndDate);
                         raffle.setRaffleType(stringRaffleType);
+                        raffle.setPhoto(currentPhotoUri);
 
                         RaffleTable.insert(database, raffle);
 
@@ -270,8 +298,94 @@ public class CreateRaffle extends AppCompatActivity
      return canSubmit;
 
  }
+ private void  requestToTakeAPicture()
+ {
+     ActivityCompat.requestPermissions(
+             CreateRaffle.this,
+             new String[]{Manifest.permission.CAMERA},
+             REQUEST_IMAGE_CAPTURE);
+ }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permission[], int[] grantResults)
+ {
+    switch(requestCode)
+    {
+        case REQUEST_IMAGE_CAPTURE:
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                takeAPicture();
+            }
+            else
+            {
+                Log.i("Testing", "Requesting to take a picture error");
+            }
+            break;
+    }
+ }
+
+ private void takeAPicture()
+ {
+     Intent takeAPictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+     if(takeAPictureIntent.resolveActivity(getPackageManager()) != null)
+     {
+        try
+            {
+                File photoFile = createImageFile();
+                Uri photoURI = FileProvider.getUriForFile(this, "au.edu.utas.asornob.raffledrawingapp", photoFile);
+                currentPhotoUri = FileProvider.getUriForFile(this, "au.edu.utas.asornob.raffledrawingapp", photoFile);
+                takeAPictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takeAPictureIntent, REQUEST_IMAGE_CAPTURE);
+
+            }
+        catch(IOException ex)
+         {
+             Log.i("Testing", "Error creating Image file for Camera");
+         }
+     }
+
+ }
+
+    private File createImageFile() throws IOException
+    {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+        String imageFileName = "myImage_" + timeStamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        currentPhotoPath = image.getAbsolutePath();
+
+        return image;
+    }
 
 
+@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        setPic(image, currentPhotoPath);
+    }
+}
+    private void setPic(ImageView entryMedia, String path)
+    {
+        int targetW = entryMedia.getWidth();
+        int targetH = entryMedia.getHeight();
+
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+        image.setImageBitmap(bitmap);
+    }
 
 
 

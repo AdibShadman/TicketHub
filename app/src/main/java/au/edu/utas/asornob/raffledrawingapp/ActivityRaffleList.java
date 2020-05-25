@@ -55,6 +55,11 @@ public class ActivityRaffleList extends AppCompatActivity
               i.putExtra("start_date", raffles.get(position).getStartDate().toString());
               i.putExtra("raffle_type", raffles.get(position).getRaffleType());
 
+              if(raffles.get(position).getPhoto() != null)
+              {
+                  i.putExtra("raffle_uri", raffles.get(position).getPhoto().toString());
+              }
+
               startActivity(i);
 
             }

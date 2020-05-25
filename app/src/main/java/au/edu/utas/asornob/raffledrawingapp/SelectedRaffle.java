@@ -6,9 +6,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -28,10 +30,13 @@ public class SelectedRaffle extends AppCompatActivity
     TextView raffleStartDate;
     TextView ticketPrice;
     TextView raffleType;
+    ImageView selectedImage;
+    Uri imageUri;
 
 
     Button editRaffle;
     Button deleteRaffle;
+    Button shareRaffle;
     private Button btnListTickets;
     private Button btnSellTickets;
     Button selectWinner;
@@ -91,6 +96,22 @@ public class SelectedRaffle extends AppCompatActivity
         ticketPrice = (TextView) findViewById(R.id.view_ticket_price);
         raffleStartDate = (TextView) findViewById(R.id.view_start_date);
         raffleType = (TextView) findViewById(R.id.view_ticket_type);
+        selectedImage = (ImageView) findViewById(R.id.image_view);
+        shareRaffle = (Button) findViewById(R.id.share_raffle);
+
+        shareRaffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Start Date: " +raffleStartDate.getText().toString() + "\nRaffle Name: " +
+                        raffleName.getText().toString() + " \nRaffle Description: " + raffleDescription.getText().toString() + " \nRaffle Type: " + raffleType.getText().toString());
+                sendIntent.setType("text/plain");
+
+                startActivity(Intent.createChooser(sendIntent, "Share via..."));
+            }
+        });
 
 
         raffleId = getIntent().getIntExtra("id", 0);
@@ -125,6 +146,13 @@ public class SelectedRaffle extends AppCompatActivity
                 startActivity(i);
             }
         });
+        Bundle extras = getIntent().getExtras();
+        if(extras.containsKey("raffle_uri"))
+        {
+
+          imageUri = Uri.parse(getIntent().getStringExtra("raffle_uri"));
+          selectedImage.setImageURI(imageUri);
+        }
     }
 
 

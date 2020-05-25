@@ -154,10 +154,10 @@
         android:text="Sell Tickets"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.077"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.585" />
+        app:layout_constraintVertical_bias="0.811" />
 
     <Button
         android:id="@+id/list_tickets"
@@ -166,10 +166,10 @@
         android:text="List Tickets"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.931"
+        app:layout_constraintHorizontal_bias="0.935"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.585" />
+        app:layout_constraintVertical_bias="0.811" />
 
     <Button
         android:id="@+id/select_winner"
@@ -180,8 +180,33 @@
         android:text="Select Winner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.672" />
+        app:layout_constraintVertical_bias="0.916" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="388dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.673" />
+
+    <Button
+        android:id="@+id/share_raffle"
+        android:layout_width="81dp"
+        android:layout_height="43dp"
+        android:text="SHARE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.049" />
 </androidx.constraintlayout.widget.ConstraintLayout>

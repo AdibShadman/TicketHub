@@ -71,16 +71,20 @@ public class TicketSale extends AppCompatActivity {
             txtCost.setText("$" + ((Double) (quantity * price)).toString());
         }
 
-        fieldQuantity.addTextChangedListener(new TextWatcher() {
+        fieldQuantity.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 String quantityString = fieldQuantity.getText().toString();
-                if(quantityString.equals("")) {
+                if(quantityString.equals(""))
+                {
                     txtCost.setText("$0.00");
                 }
                 else
@@ -125,7 +129,8 @@ public class TicketSale extends AppCompatActivity {
                 if(price == -1 || customer ==null || id == -1 || quantityString.equals("")) {
                     Log.d("Error: ", "Submit failed due to missing value");
                 }
-                else {
+                else
+                    {
                     Ticket ticket = new Ticket();
 
                     ticket.setPrice(price);
@@ -156,7 +161,8 @@ public class TicketSale extends AppCompatActivity {
 
         if(requestCode == REQUEST_CUSTOMER)
         {
-            switch(resultCode) {
+            switch(resultCode)
+            {
                 case CustomerSelect.VALID_CUSTOMER:
                     int customerId = data.getIntExtra(CustomerSelect.KEY_ID, -1);
                     customer = CustomerTable.selectCustomer(database, customerId);

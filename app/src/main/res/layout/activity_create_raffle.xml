@@ -8,56 +8,59 @@
 
     <EditText
         android:id="@+id/raffle_entry_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Raffle Name"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135" />
+        app:layout_constraintVertical_bias="0.11" />
 
     <EditText
         android:id="@+id/raffle_entry_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:hint="Raffle Description"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.237" />
+        app:layout_constraintVertical_bias="0.109" />
 
     <EditText
         android:id="@+id/raffle_entry_total_tickets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:hint="Total Tickets"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.344" />
+        app:layout_constraintVertical_bias="0.206" />
 
     <EditText
         android:id="@+id/raffle_ticket_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:hint="Ticket Price"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.465" />
+        app:layout_constraintVertical_bias="0.205" />
 
     <Button
         android:id="@+id/add_raffle_button"
@@ -73,43 +76,69 @@
 
     <TextView
         android:id="@+id/start_date_text_view"
-        android:layout_width="210dp"
+        android:layout_width="180dp"
         android:layout_height="40dp"
         android:text="Start Date"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.575" />
+        app:layout_constraintVertical_bias="0.301" />
 
     <TextView
         android:id="@+id/end_date_text_view"
-        android:layout_width="210dp"
+        android:layout_width="180dp"
         android:layout_height="40dp"
         android:text="End Date"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.683" />
+        app:layout_constraintVertical_bias="0.301" />
 
     <EditText
         android:id="@+id/raffle_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Type"
+        android:inputType="textPersonName"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintHorizontal_bias="0.069"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.79" />
+        app:layout_constraintVertical_bias="0.405" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="388dp"
+        android:layout_height="178dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.728" />
+
+    <Button
+        android:id="@+id/image_button"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Select Image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.396" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
