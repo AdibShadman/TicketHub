@@ -8,8 +8,8 @@
 
     <EditText
         android:id="@+id/customer_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -18,12 +18,12 @@
         app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.26" />
 
     <EditText
         android:id="@+id/customer_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
@@ -32,12 +32,12 @@
         app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.282" />
+        app:layout_constraintVertical_bias="0.365" />
 
     <EditText
         android:id="@+id/customer_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:hint="Phone"
         android:inputType="textPersonName"
@@ -46,17 +46,31 @@
         app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.434" />
+        app:layout_constraintVertical_bias="0.485" />
 
     <Button
         android:id="@+id/add_customer_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Customer"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.609" />
+        app:layout_constraintVertical_bias="0.601" />
+
+    <TextView
+        android:id="@+id/customer_form"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="Customer Form"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.402"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.063" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,26 +9,41 @@
     <ListView
         android:id="@+id/raffle_list"
         android:layout_width="409dp"
-        android:layout_height="650dp"
+        android:layout_height="550dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999" />
+        app:layout_constraintVertical_bias="0.402">
+
+
+    </ListView>
+
+    <SearchView
+        android:id="@+id/entry_search_bar"
+        android:layout_width="409dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 
     <Button
         android:id="@+id/add_raffle_from_listview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Raffle"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:background="@drawable/more"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.947"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.969" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

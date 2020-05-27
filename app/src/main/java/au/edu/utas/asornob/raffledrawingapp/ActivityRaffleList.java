@@ -69,6 +69,7 @@ public class ActivityRaffleList extends AppCompatActivity
 
 
 
+
     }
 
     public void openCreateRaffleActivity()
