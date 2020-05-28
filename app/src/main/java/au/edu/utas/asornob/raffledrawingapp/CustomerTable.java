@@ -3,8 +3,10 @@ package au.edu.utas.asornob.raffledrawingapp;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import au.edu.utas.asornob.raffledrawingapp.Customer;
 
@@ -74,5 +76,32 @@ public class CustomerTable {
         }
 
         return results;
+    }
+
+    public static void updateCustomer(SQLiteDatabase db, int id, String name, String email, String phone) {
+        String setName = "", setEmail = "", setPhone = "";
+        boolean checkName, checkEmail, checkPhone;
+        checkName = name != null;
+        checkEmail = email != null;
+        checkPhone = phone != null;
+        if(checkName) {
+            setName = " " + KEY_NAME + " = '" + name + "'";
+            if(checkEmail || checkPhone) {
+                setName += ",";
+            }
+        }
+        if(checkEmail) {
+            setEmail = " " + KEY_EMAIL + " = '" + email + "'";
+            if(checkPhone) {
+                setEmail += ",";
+            }
+        }
+        if(checkPhone) {
+            setPhone = " " + KEY_PHONE + " = '" + phone + "'";
+        }
+        db.execSQL("UPDATE " + TABLE_NAME + " " +
+                "SET" + setName + setEmail + setPhone + " " +
+                "WHERE "+ KEY_ID + " = " + id + ";");
+
     }
 }

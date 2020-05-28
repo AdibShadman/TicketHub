@@ -26,6 +26,9 @@
         <activity android:name=".TicketList" />
         <activity android:name=".CreateRaffle" />
         <activity android:name=".ActivityRaffleList" />
+        <activity android:name=".CustomerDetails" />
+        <activity android:name=".CustomerEdit" />
+        <activity android:name=".WinnerList" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
