@@ -14,7 +14,7 @@ public class Database
     private static final String DATABASE_NAME = "RaffleDatabase";
 
     //The version of the database. Increment this whenever you change the /structure/ of the database
-    private static final int   DATABASE_VERSION   = 6;
+    private static final int   DATABASE_VERSION   = 11;
 
     //The connection to the database itself
     private SQLiteDatabase mDb;
@@ -59,7 +59,7 @@ public class Database
             db.execSQL(RaffleTable.CREATE_STATEMENT);
             db.execSQL(TicketTable.CREATE_STATEMENT);
             db.execSQL(CustomerTable.CREATE_STATEMENT);
-
+            db.execSQL(WinnerTable.CREATE_STATEMENT);
         }
 
         //This code is called if the version number changes
@@ -69,6 +69,9 @@ public class Database
             Log.d(TAG, "DatabaseHelper onUpgrade");
 
             db.execSQL("DROP TABLE IF EXISTS " + RaffleTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TicketTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + CustomerTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + WinnerTable.TABLE_NAME);
             onCreate(db); //this will recreate the database as if it were new
         }
     }

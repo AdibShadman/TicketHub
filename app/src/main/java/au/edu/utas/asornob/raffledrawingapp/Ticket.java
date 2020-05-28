@@ -9,6 +9,7 @@ public class Ticket
   private Date purchaseTime;
   private Customer customer;
   private int raffleId;
+  private int ticketNo;
 
     public int getId() {return id; }
 
@@ -37,4 +38,10 @@ public class Ticket
     public int getRaffleId() {return raffleId;}
 
     public void setRaffleId(int raffleId) {this.raffleId = raffleId;}
+
+    public int getTicketNo() {return ticketNo;}
+
+    public void setTicketNo(int ticketno) {this.ticketNo = ticketno;}
+
+    public void incrementTicketNo() {ticketNo ++;}
 }

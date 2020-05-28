@@ -18,6 +18,11 @@ public class Raffle
   private Date endDate;
   private String raffleType;
   private Uri photo;
+  private int lastTicket;
+
+
+
+    private int winners;
 
 
     public int getId() {
@@ -85,5 +90,21 @@ public class Raffle
 
     public void setPhoto(Uri photo) {
         this.photo = photo;
+    }
+
+    public int getLastTicket() {
+        return lastTicket;
+    }
+
+    public void setLastTicket(int lastTicket) {
+        this.lastTicket = lastTicket;
+    }
+
+    public int getWinners() {
+    return winners;
+    }
+
+    public void setWinners(int winners) {
+        this.winners = winners;
     }
 }

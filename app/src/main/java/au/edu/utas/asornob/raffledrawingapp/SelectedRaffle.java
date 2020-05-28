@@ -39,7 +39,7 @@ public class SelectedRaffle extends AppCompatActivity
     Button shareRaffle;
     private Button btnListTickets;
     private Button btnSellTickets;
-    Button selectWinner;
+    Button btnSelectWinner;
     String startDateString2;
 
 
@@ -146,6 +146,17 @@ public class SelectedRaffle extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+        btnSelectWinner = (Button) findViewById(R.id.select_winner);
+        btnSelectWinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
+                i.putExtra(KEY_RAFFLE_ID, raffleId);
+                startActivity(i);
+            }
+        });
+
         Bundle extras = getIntent().getExtras();
         if(extras.containsKey("raffle_uri"))
         {

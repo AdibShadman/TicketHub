@@ -24,7 +24,8 @@ public class RaffleTable
     public static final String KEY_END_DATE = "end_date";
     public static final String KEY_TYPE = "type";
     public static final String KEY_PHOTO = "photo";
-
+    public static final String KEY_LAST_TICKET = "last_ticket";
+    public static final String KEY_WINNERS = "winners";
 
 
     public static final String CREATE_STATEMENT = //"DROP TABLE "
@@ -39,8 +40,10 @@ public class RaffleTable
             + KEY_START_DATE + " long not null, "
             + KEY_END_DATE + " long not null, "
             + KEY_TYPE + " string not null, "
-            + KEY_PHOTO + " blob "
-            +" );";
+            + KEY_PHOTO + " blob, "
+            + KEY_LAST_TICKET + " int default 1, "
+            + KEY_WINNERS + " int default 3"
+            +");";
 
     public static Raffle createFromCursor(Cursor c)
     {
@@ -60,7 +63,8 @@ public class RaffleTable
             raffle.setStartDate(new Date(c.getLong(c.getColumnIndex(KEY_START_DATE))));
             raffle.setEndDate(new Date(c.getLong(c.getColumnIndex(KEY_END_DATE))));
             raffle.setRaffleType(c.getString(c.getColumnIndex(KEY_TYPE)));
-
+            raffle.setLastTicket(c.getInt(c.getColumnIndex(KEY_LAST_TICKET)));
+            raffle.setWinners(c.getInt(c.getColumnIndex(KEY_WINNERS)));
 
             String uri;
 
@@ -83,6 +87,8 @@ public class RaffleTable
         values.put(KEY_START_DATE, raffle.getStartDate().getTime());
         values.put(KEY_END_DATE, raffle.getEndDate().getTime());
         values.put(KEY_TYPE, raffle.getRaffleType());
+        values.put(KEY_LAST_TICKET, raffle.getLastTicket());
+        values.put(KEY_WINNERS, raffle.getWinners());
         if(raffle.getPhoto() != null)
         {
             values.put(KEY_PHOTO,raffle.getPhoto().toString());
@@ -142,9 +148,24 @@ public class RaffleTable
         values.put(KEY_TICKET_PRICE, raffle.getTicketPrice());
         values.put(KEY_TYPE, raffle.getRaffleType());
         values.put(KEY_START_DATE, raffle.getStartDate().getTime());
-
+        values.put(KEY_LAST_TICKET, raffle.getLastTicket());
+        values.put(KEY_WINNERS, raffle.getWinners());
         database.update(TABLE_NAME, values, KEY_ID +"= ?",new String[] {""+raffle.getId()});
 
+    }
+
+    public static void setLastTicket(SQLiteDatabase db, int id, int quantity) {
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_LAST_TICKET, quantity);
+        /*values.put(KEY_ID, raffle.getId());
+        values.put(KEY_NAME, raffle.getName());
+        values.put(KEY_DESCRIPTION, raffle.getDescription());
+        values.put(KEY_TICKET_PRICE, raffle.getTicketPrice());
+        values.put(KEY_TYPE, raffle.getRaffleType());
+        values.put(KEY_START_DATE, raffle.getStartDate().getTime());*/
+
+        db.update(TABLE_NAME, values, KEY_ID +"= ?",new String[] {""+ id});
     }
 
     static void delete(SQLiteDatabase database)

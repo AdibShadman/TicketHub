@@ -52,7 +52,7 @@ public class TicketSale extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         final int id = extras.getInt(SelectedRaffle.KEY_RAFFLE_ID, -1);
-        Raffle raffle = RaffleTable.selectRaffle(database, id);
+        final Raffle raffle = RaffleTable.selectRaffle(database, id);
 
         //testing ticket insertion
         /*ArrayList<Ticket> tickets = TicketTable.selectAll(database);
@@ -130,26 +130,30 @@ public class TicketSale extends AppCompatActivity {
                     Log.d("Error: ", "Submit failed due to missing value");
                 }
                 else
-                    {
+                {
                     Ticket ticket = new Ticket();
 
                     ticket.setPrice(price);
                     ticket.setPurchaseTime(new Date());
                     ticket.setCustomer(customer);
                     ticket.setRaffleId(id);
+                    ticket.setTicketNo(raffle.getLastTicket() + 1);
 
                     quantity = Integer.parseInt(fieldQuantity.getText().toString());
                     for (int i = 0; i < quantity; i++) {
                         TicketTable.insert(database, ticket);
+                        ticket.incrementTicketNo();
                     }
+
+                    RaffleTable.setLastTicket(database, raffle.getId(),raffle.getLastTicket() + quantity);
 
                     Toast.makeText(TicketSale.this, (quantity + "Ticket(s) sold"), Toast.LENGTH_SHORT).show();
                     //Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
                     //startActivity(intent);
                     finish();
                 }
-            }
-        });
+                }
+            });
     }
 
     @Override

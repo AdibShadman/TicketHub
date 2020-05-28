@@ -3,6 +3,7 @@ package au.edu.utas.asornob.raffledrawingapp;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class TicketTable {
     public static final String KEY_PRICE = "price";
     public static final String RAFFLE_ID = "FK_raffle";
     public static final String CUSTOMER_ID = "FK_customer";
+    public static final String TICKET_NO = "TicketNo";
 
     public static final String CREATE_STATEMENT = //"DROP TABLE "
             //+ TABLE_NAME + "; " +
@@ -22,8 +24,9 @@ public class TicketTable {
             //+ KEY_PURCHASE_TIME + " datetime not null, "
             + KEY_PRICE + " double not null, "
             + RAFFLE_ID + " integer not null, " //not null
-            + CUSTOMER_ID + " integer not null" //not null
-            + " );";
+            + CUSTOMER_ID + " integer not null, " //not null
+            + TICKET_NO + " integer not null"
+            + ");";
 
     public static void insert(SQLiteDatabase database, Ticket ticket) {
         ContentValues values = new ContentValues();
@@ -31,6 +34,7 @@ public class TicketTable {
         values.put(KEY_PRICE, ticket.getPrice());
         values.put(RAFFLE_ID, ticket.getRaffleId());
         values.put(CUSTOMER_ID, ticket.getCustomer().getId());
+        values.put(TICKET_NO, ticket.getTicketNo());
         database.insert(TABLE_NAME, null, values);
     }
 
@@ -46,6 +50,7 @@ public class TicketTable {
 
             int customerId = c.getInt(c.getColumnIndex(CUSTOMER_ID));
             Customer customer = CustomerTable.selectCustomer(db, customerId);
+            Log.d("customer: ", customer.getName());
 
             ticket.setId(c.getInt(c.getColumnIndex(KEY_ID)));
             //ticket.setPurchaseTime(c.getType(c.getColumnIndex(KEY_ID)));
@@ -90,6 +95,21 @@ public class TicketTable {
 
         return results;
     }
+
+    public static Customer ticketOwner(SQLiteDatabase db, int id) {
+    Ticket ticket;
+    Customer result;
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + id, null);
+        if (c != null) {
+            c.moveToFirst();
+            ticket = createFromCursor(c, db);
+            result = ticket.getCustomer();
+            return result;
+        }
+
+        return null;
+    }
+
 }
 
 
