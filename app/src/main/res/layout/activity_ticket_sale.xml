@@ -10,43 +10,50 @@
 
     <TextView
         android:id="@+id/txtQuantLabel"
-        android:layout_width="96dp"
-        android:layout_height="30dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:text="Ticket quantity"
+        android:gravity="center"
+        android:text="Ticket Quantity"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtQuant"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtQuant"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/txtCost"
-        android:layout_width="155dp"
-        android:layout_height="28dp"
-        android:layout_marginEnd="68dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="96dp"
         android:text="$"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.409" />
+        app:layout_constraintVertical_bias="0.38" />
 
     <TextView
         android:id="@+id/txtTicketPrice"
-        android:layout_width="155dp"
-        android:layout_height="28dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
+        android:gravity="left"
         android:text="$"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtTicketPriceLbl"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.199" />
 
     <TextView
         android:id="@+id/txtTicketPriceLbl"
-        android:layout_width="155dp"
-        android:layout_height="30dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
+        android:gravity="center"
         android:text="Ticket Price"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtTicketPrice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtTicketPrice"
@@ -54,10 +61,12 @@
 
     <TextView
         android:id="@+id/txtCostLabel"
-        android:layout_width="155dp"
-        android:layout_height="30dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
+        android:gravity="center"
         android:text="Total Cost"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtCost"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtCost"
@@ -65,21 +74,25 @@
 
     <Button
         android:id="@+id/btnChangeCust"
-        android:layout_width="166dp"
-        android:layout_height="67dp"
-        android:text="Change/Add Customer"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/more"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.911"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.652" />
+        app:layout_constraintVertical_bias="0.474" />
 
     <TextView
         android:id="@+id/txtCostLabel2"
-        android:layout_width="153dp"
-        android:layout_height="24dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
+        android:gravity="center"
         android:text="Customer"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtCustomer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtCustomer"
@@ -87,37 +100,40 @@
 
     <EditText
         android:id="@+id/txtQuant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:inputType="number"
         android:text="@string/txtDefQuant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.837"
+        app:layout_constraintHorizontal_bias="0.139"
         app:layout_constraintStart_toEndOf="@+id/txtQuantLabel"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.288" />
+        app:layout_constraintVertical_bias="0.286" />
 
     <TextView
         android:id="@+id/txtCustomer"
-        android:layout_width="153dp"
-        android:layout_height="28dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:gravity="left"
         android:inputType="text"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.191"
+        app:layout_constraintHorizontal_bias="0.165"
         app:layout_constraintStart_toEndOf="@+id/txtCostLabel2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.503" />
+        app:layout_constraintVertical_bias="0.474" />
 
     <Button
         android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnChangeCust" />
 

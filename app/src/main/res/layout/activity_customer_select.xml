@@ -21,10 +21,13 @@
 
         <Button
             android:id="@+id/btnNewCustomer"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:text="New Customer" />
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_gravity="right|center_horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+
+            android:background="@drawable/more" />
     </LinearLayout>
 
 

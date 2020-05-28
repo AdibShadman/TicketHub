@@ -16,9 +16,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //deleteRaffles();
+        Intent intent = new Intent(this, ActivityRaffleList.class);
+        startActivity(intent);
+      // deleteRaffles();
       /*  Database databaseConnection = new Database(this);
         final SQLiteDatabase db = databaseConnection.open();
         db.execSQL(TicketTable.CREATE_STATEMENT);
