@@ -1,14 +1,15 @@
 package au.edu.utas.asornob.raffledrawingapp;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.SearchEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +19,10 @@ public class ActivityRaffleList extends AppCompatActivity
 {
     private ListView raffleListView;
     private Button addButtonFromRaffleList;
+    private SearchView sv;
+
+    ArrayList<Raffle> raffles = new ArrayList();
+    RaffleAdapter raffleListAdapter;
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -26,7 +31,8 @@ public class ActivityRaffleList extends AppCompatActivity
         addButtonFromRaffleList = (Button) findViewById(R.id.add_raffle_from_listview);
         addButtonFromRaffleList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 openCreateRaffleActivity();
 
             }
@@ -36,10 +42,13 @@ public class ActivityRaffleList extends AppCompatActivity
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
 
-        final ArrayList<Raffle> raffles = RaffleTable.selectAll(database);
-        final RaffleAdapter raffleListAdapter = new RaffleAdapter(ActivityRaffleList.this,
+         raffles = RaffleTable.selectAll(database);
+         raffleListAdapter = new RaffleAdapter(this,
                 R.layout.my_list_item, raffles);
         raffleListView.setAdapter(raffleListAdapter);
+
+
+
 
         raffleListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -64,11 +73,48 @@ public class ActivityRaffleList extends AppCompatActivity
 
             }
         });
+        sv = (SearchView) findViewById(R.id.raffle_search_bar);
+        sv.setQueryHint("Search by Name...");
+
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                if(newText.isEmpty())
+                {
+                    raffles.clear();
+                    raffles = RaffleTable.selectAll(database);
+                    raffleListAdapter.clear();
+                    raffleListAdapter.addAll(raffles);
+                    raffleListAdapter.notifyDataSetChanged();
+
+                }
+                else
+                {
+                    raffles.clear();
+                    raffles = RaffleTable.selectByNameFilter(database, newText);
+                    raffleListAdapter.clear();
+                    raffleListAdapter.addAll(raffles);
+                    raffleListAdapter.notifyDataSetChanged();
+                }
 
 
+                Log.i("Testing", "Searching: " + newText);
+                for(Raffle raffle : raffles)
+                {
+                    Log.i("Testing", raffle.getName() + "\n");
+                }
 
-
-
+                return false;
+            }
+        });
 
     }
 

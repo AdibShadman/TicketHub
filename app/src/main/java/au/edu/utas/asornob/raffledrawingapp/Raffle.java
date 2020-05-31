@@ -66,13 +66,7 @@ public class Raffle
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
-    }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
      public String getRaffleType(){ return raffleType; }
 

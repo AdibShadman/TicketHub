@@ -38,6 +38,7 @@ public class TicketTable {
         values.put(KEY_PRICE, ticket.getPrice());
         values.put(RAFFLE_ID, ticket.getRaffleId());
         values.put(CUSTOMER_ID, ticket.getCustomer().getId());
+
         values.put(TICKET_NO, ticket.getTicketNo());
         database.insert(TABLE_NAME, null, values);
     }
@@ -53,6 +54,7 @@ public class TicketTable {
             Ticket ticket = new Ticket();
 
             int customerId = c.getInt(c.getColumnIndex(CUSTOMER_ID));
+
             Customer customer = CustomerTable.selectCustomer(db, customerId);
             Log.d("customer: ", customer.getName());
 
@@ -152,6 +154,27 @@ public class TicketTable {
             return result;
         }
         return null;
+    }
+
+    public static ArrayList<Ticket> selectByNameFilter(SQLiteDatabase db, int customerId, int raffleId)
+    {
+         ArrayList<Ticket> results = new ArrayList<>();
+        Ticket result;
+
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + CUSTOMER_ID + "=" + customerId + " and " + RAFFLE_ID + "=" + raffleId , null);
+        if (c != null)
+        {
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                Ticket ticket = createFromCursor(c, db);
+                results.add(ticket);
+                c.moveToNext();
+            }
+
+        }
+
+        return results;
     }
 
 }
