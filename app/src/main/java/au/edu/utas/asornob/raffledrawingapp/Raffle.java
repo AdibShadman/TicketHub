@@ -15,7 +15,7 @@ public class Raffle
   private int totalTickets;
   private double ticketPrice;
   private Date startDate;
-  private Date endDate;
+
   private String raffleType;
   private Uri photo;
   private int lastTicket;
@@ -72,13 +72,7 @@ public class Raffle
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
-    }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
      public String getRaffleType(){ return raffleType; }
 

@@ -28,7 +28,7 @@ public class RaffleAdapter extends ArrayAdapter<Raffle>
     }
     @NonNull
      @Override
-    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    public View getView( int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
         LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
         View row = layoutInflater.inflate(mLayoutResourceID, parent, false);

@@ -23,9 +23,12 @@
         <activity android:name=".CustomerCreate" />
         <activity android:name=".CustomerSelect" />
         <activity android:name=".TicketSale" />
-        <activity android:name=".TicketList" />
+        <activity android:name=".TicketList"
+            android:windowSoftInputMode="adjustPan"/>
+
         <activity android:name=".CreateRaffle" />
-        <activity android:name=".ActivityRaffleList" />
+        <activity android:name=".ActivityRaffleList"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".CustomerDetails" />
         <activity android:name=".CustomerEdit" />
         <activity android:name=".WinnerList" />

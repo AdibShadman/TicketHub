@@ -5,11 +5,23 @@
     android:gravity="bottom"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/raffle_winner"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="Raffle Winner List"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
     <ListView
         android:id="@+id/listWinners"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="400dp"
         android:layout_gravity="center"
-        android:layout_weight="1" >
+        android:layout_marginTop="10dp"
+        android:layout_weight="1">
+
     </ListView>
+
 </LinearLayout>

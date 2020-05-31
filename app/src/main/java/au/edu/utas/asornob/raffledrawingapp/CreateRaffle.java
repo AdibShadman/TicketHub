@@ -46,7 +46,7 @@ public class CreateRaffle extends AppCompatActivity
     private EditText raffleTotalTickets;
     private EditText raffleTicketPrice;
     private TextView startDate;
-    private TextView endDate;
+
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private DatePickerDialog.OnDateSetListener mDateSetListener2;
     private EditText raffleType;
@@ -125,54 +125,10 @@ public class CreateRaffle extends AppCompatActivity
             }
         };
 
-        endDate = (TextView) findViewById(R.id.end_date_text_view);
 
-        endDate.setOnClickListener(new View.OnClickListener()
-        {
 
-            public void onClick(View v) {
-                Calendar cal2 = Calendar.getInstance();
-                int year2 =  cal2.get(Calendar.YEAR);
-                int month2 = cal2.get(Calendar.MONTH);
-                int day2 = cal2.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(CreateRaffle.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDateSetListener2,year2, month2, day2 );
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-        mDateSetListener2 = new DatePickerDialog.OnDateSetListener()
-        {
 
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                String date2;
-                month = month + 1;
-                if(month < 10 && dayOfMonth > 10)
-                {
-
-                    date2 = year + "-0" + month + "-" + dayOfMonth;
-
-                }
-                else if(month > 10 && dayOfMonth < 10 )
-                {
-                    date2 = year + "-" + month + "-0" + dayOfMonth;
-                }
-                else if(month < 10 && dayOfMonth < 10)
-                {
-                    date2 = year + "-0" + month + "-0" + dayOfMonth;
-                }
-                else
-                {
-                    date2 = year + "-" + month + "-" + dayOfMonth;
-                }
-
-                Log.d("Testing","onDateSET: yyyy-MM-dd: " + month + "/" + dayOfMonth + "/" + year);
-
-                endDate.setText(date2);
-
-            }
-        };
 
                 addRaffleButtonInRaffleForm = (Button) findViewById(R.id.add_raffle_button);
                 addRaffleButtonInRaffleForm.setOnClickListener(new View.OnClickListener()
@@ -210,12 +166,12 @@ public class CreateRaffle extends AppCompatActivity
 
                         SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date newStartDate = new Date();
-                        Date newEndDate = new Date();
+
 
                         try
                         {
                             newStartDate = newDateFormat.parse(startDate.getText().toString());
-                            newEndDate = newDateFormat.parse(endDate.getText().toString());
+
 
                         }
                         catch(ParseException pe)
@@ -230,7 +186,7 @@ public class CreateRaffle extends AppCompatActivity
                         raffle.setTotalTickets(integerTotalTickets);
                         raffle.setTicketPrice(doubleTicketPrice);
                         raffle.setStartDate(newStartDate);
-                        raffle.setEndDate(newEndDate);
+
                         raffle.setRaffleType(stringRaffleType);
                         raffle.setPhoto(currentPhotoUri);
 
@@ -289,11 +245,7 @@ public class CreateRaffle extends AppCompatActivity
          canSubmit = false;
 
      }
-     if(TextUtils.isEmpty(endDate.getText()))
-     {
-         canSubmit = false;
 
-     }
 
      return canSubmit;
 

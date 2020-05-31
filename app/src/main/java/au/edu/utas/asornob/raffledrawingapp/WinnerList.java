@@ -27,9 +27,10 @@ public class WinnerList extends AppCompatActivity {
         ArrayList<Winner> winners = WinnerTable.selectRaffleWinners(database, id);
 
         // if not drawn, draw
-        //if(winners.isEmpty() == true) {
-            //winners = Winner.drawWinners(database, raffle);
-        //}
+        if(winners.isEmpty() == true)
+        {
+            winners = Winner.drawWinners(database, raffle);
+        }
 
         WinnerAdapter winnerAdapter = new WinnerAdapter(
                 this,

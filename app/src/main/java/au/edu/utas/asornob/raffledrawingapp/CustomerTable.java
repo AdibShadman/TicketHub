@@ -52,9 +52,10 @@ public class CustomerTable {
         }
     }
 
-    public static Customer selectCustomer(SQLiteDatabase db, int id) {
+    public static Customer selectCustomer(SQLiteDatabase db, int id )
+    {
         Customer result;
-        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + id, null);
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + id , null);
         if (c != null) {
             c.moveToFirst();
             result = createFromCursor(c);
@@ -63,6 +64,8 @@ public class CustomerTable {
 
         return null;
     }
+
+
 
     public static ArrayList<Customer> selectAll(SQLiteDatabase db) {
         ArrayList<Customer> results= new ArrayList<Customer>();
@@ -78,7 +81,28 @@ public class CustomerTable {
         return results;
     }
 
-    public static void updateCustomer(SQLiteDatabase db, int id, String name, String email, String phone) {
+    public static ArrayList<Customer> selectByNameFilter(SQLiteDatabase db, String text)
+    {
+        ArrayList<Customer> customers = new ArrayList<>();
+
+        Cursor c = db.query(TABLE_NAME, null, KEY_NAME + " LIKE " + "'" + text + "%'", null, null, null, null);
+        if(c != null)
+        {
+            ((Cursor) c).moveToFirst();
+
+            while(!c.isAfterLast())
+            {
+                Customer customer = createFromCursor(c);
+                customers.add(customer);
+                c.moveToNext();
+            }
+        }
+        return customers;
+
+    }
+
+    public static void updateCustomer(SQLiteDatabase db, int id, String name, String email, String phone)
+    {
         String setName = "", setEmail = "", setPhone = "";
         boolean checkName, checkEmail, checkPhone;
         checkName = name != null;
@@ -104,4 +128,9 @@ public class CustomerTable {
                 "WHERE "+ KEY_ID + " = " + id + ";");
 
     }
+
+
+
+
+
 }
