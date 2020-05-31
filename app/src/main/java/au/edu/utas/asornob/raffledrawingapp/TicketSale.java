@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,7 +29,7 @@ public class TicketSale extends AppCompatActivity {
 
     private Double price = -1.0;
     private Customer customer;
-
+    private int remainingTickets;
 
 
     @Override
@@ -48,12 +47,11 @@ public class TicketSale extends AppCompatActivity {
         insRaffle.setTicketPrice(1.5);
         RaffleTable.insert(database, insRaffle);*/
 
-        List<Raffle> raffles = RaffleTable.selectAll(database);
-
         Bundle extras = getIntent().getExtras();
         final int id = extras.getInt(SelectedRaffle.KEY_RAFFLE_ID, -1);
         final Raffle raffle = RaffleTable.selectRaffle(database, id);
 
+        remainingTickets = raffle.getTotalTickets() - raffle.getLastTicket();
         //testing ticket insertion
         /*ArrayList<Ticket> tickets = TicketTable.selectAll(database);
             for(int i = 0; i < tickets.size(); i++) {
@@ -90,6 +88,11 @@ public class TicketSale extends AppCompatActivity {
                 else
                 {
                     quantity = Integer.parseInt(quantityString);
+                    if(quantity > remainingTickets)
+                    {
+                        quantity = remainingTickets;
+                        fieldQuantity.setText(Integer.toString(quantity));
+                    }
                     txtCost.setText(("$" + (Double) (quantity * price)).toString());
                 }
 
@@ -126,31 +129,63 @@ public class TicketSale extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String quantityString = fieldQuantity.getText().toString();
-                if(price == -1 || customer ==null || id == -1 || quantityString.equals("")) {
+                if(price == -1 || customer ==null || id == -1 || quantityString.equals("") || Integer.parseInt(quantityString) <= 0) {
                     Log.d("Error: ", "Submit failed due to missing value");
                 }
                 else
                 {
+                    quantity = Integer.parseInt(fieldQuantity.getText().toString());
+
                     Ticket ticket = new Ticket();
 
                     ticket.setPrice(price);
                     ticket.setPurchaseTime(new Date());
                     ticket.setCustomer(customer);
                     ticket.setRaffleId(id);
-                    ticket.setTicketNo(raffle.getLastTicket() + 1);
+                    if(raffle.getRaffleType().compareToIgnoreCase("normal") == 0) {
+                        ticket.setTicketNo(raffle.getLastTicket() + 1);
 
-                    quantity = Integer.parseInt(fieldQuantity.getText().toString());
-                    for (int i = 0; i < quantity; i++) {
-                        TicketTable.insert(database, ticket);
-                        ticket.incrementTicketNo();
+                        for (int i = 0; i < quantity; i++) {
+                            TicketTable.insert(database, ticket);
+                            ticket.incrementTicketNo();
+                        }
+
+                        RaffleTable.setLastTicket(database, raffle.getId(), raffle.getLastTicket() + quantity);
+
+                        Toast.makeText(TicketSale.this, (quantity + "Ticket(s) sold"), Toast.LENGTH_SHORT).show();
+                        //Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
+                        //startActivity(intent);
+                        finish();
                     }
+                    else if(raffle.getRaffleType().compareToIgnoreCase("marginal") == 0)
+                    {
+                        ArrayList<Integer> ticketNos = TicketTable.raffleTicketNos(database, raffle.getId());
 
-                    RaffleTable.setLastTicket(database, raffle.getId(),raffle.getLastTicket() + quantity);
+                        int random;
+                        for (int i = 0; i < quantity; i++) {
+                            boolean found = false;
+                            int c = 0;
+                            while(!found && c < raffle.getTotalTickets() * 10) {
+                                random = (int) (Math.random() * raffle.getTotalTickets());
 
-                    Toast.makeText(TicketSale.this, (quantity + "Ticket(s) sold"), Toast.LENGTH_SHORT).show();
-                    //Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
-                    //startActivity(intent);
-                    finish();
+                                if(!ticketNos.contains(random)) {
+                                    ticket.setTicketNo(random);
+                                    found = true;
+                                }
+
+                                c++;
+                            }
+                            TicketTable.insert(database, ticket);
+
+                        }
+
+                        RaffleTable.setLastTicket(database, raffle.getId(), raffle.getLastTicket() + quantity);
+
+                        Toast.makeText(TicketSale.this, (quantity + "Ticket(s) sold"), Toast.LENGTH_SHORT).show();
+                        //Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
+                        //startActivity(intent);
+                        finish();
+                    }
                 }
                 }
             });

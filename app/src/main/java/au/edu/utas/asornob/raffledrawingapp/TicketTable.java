@@ -7,6 +7,10 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import au.edu.utas.asornob.raffledrawingapp.Customer;
+import au.edu.utas.asornob.raffledrawingapp.CustomerTable;
+import au.edu.utas.asornob.raffledrawingapp.Ticket;
+
 public class TicketTable {
     public static final String TABLE_NAME = "ticket";
     public static final String KEY_ID = "id";
@@ -57,7 +61,20 @@ public class TicketTable {
             ticket.setPrice(c.getDouble(c.getColumnIndex(KEY_PRICE)));
             ticket.setCustomer(customer);
             ticket.setRaffleId(c.getInt(c.getColumnIndex(RAFFLE_ID)));
+            ticket.setTicketNo(c.getInt(c.getColumnIndex(TICKET_NO)));
             return ticket;
+        }
+    }
+
+    public static int createNoFromCursor(Cursor c, SQLiteDatabase db)
+    {
+        if (c == null || c.isAfterLast() || c.isBeforeFirst())
+        {
+            return -1;
+        }
+        else
+        {
+            return c.getInt(c.getColumnIndex(TICKET_NO));
         }
     }
 
@@ -96,6 +113,23 @@ public class TicketTable {
         return results;
     }
 
+    public static ArrayList<Integer> raffleTicketNos(SQLiteDatabase db, int raffleId)
+    {
+        ArrayList<Integer> results = new ArrayList<Integer>();
+        Cursor c = db.rawQuery("SELECT " + TICKET_NO + " FROM "+TABLE_NAME+" WHERE "+ RAFFLE_ID + "=" + raffleId, null);
+        if(c != null)
+        {
+            c.moveToFirst();
+            while(!c.isAfterLast()) {
+                int ticketNo = createNoFromCursor(c, db);
+                results.add(ticketNo);
+                c.moveToNext();
+            }
+        }
+
+        return results;
+    }
+
     public static Customer ticketOwner(SQLiteDatabase db, int id) {
     Ticket ticket;
     Customer result;
@@ -106,7 +140,17 @@ public class TicketTable {
             result = ticket.getCustomer();
             return result;
         }
+        return null;
+    }
 
+    public static Ticket selectTicket(SQLiteDatabase db, int id) {
+        Ticket result;
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + id, null);
+        if (c != null) {
+            c.moveToFirst();
+            result = createFromCursor(c, db);
+            return result;
+        }
         return null;
     }
 

@@ -29,6 +29,7 @@
         <activity android:name=".CustomerDetails" />
         <activity android:name=".CustomerEdit" />
         <activity android:name=".WinnerList" />
+        <activity android:name=".DrawMargin" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

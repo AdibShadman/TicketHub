@@ -4,7 +4,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Winner {
 
@@ -58,19 +57,23 @@ public class Winner {
     public static ArrayList<Winner> drawWinners(SQLiteDatabase db, Raffle raffle){
         WinnerTable.deleteRaffleWinners(db, raffle.getId());
 
+        Log.d("winners: ", "" + raffle.getWinners());
+
         ArrayList<Winner> winners = new ArrayList<Winner>();
         ArrayList<Ticket> tickets = TicketTable.raffleTickets(db, raffle.getId());
         for(int i = 0; i < raffle.getWinners(); i++) {
+            Log.d("Ticket: ", ""+ tickets.get(i).getId());
             boolean found = false;
             int c = 0;
-            while(!found && c < 800) {
+            Winner winner;
+            while(!found && c < raffle.getTotalTickets() * 20) {
                 int random = (int) (Math.random() * tickets.size());
                 if(tickets.get(random) != null) {
-                    Winner winner = new Winner();
+                    winner = new Winner();
                     winner.setRaffleId(raffle.getId());
                     winner.setTicketId(tickets.get(random).getId());
                     winner.setPlace(i);
-                    winner.setCustomer(TicketTable.ticketOwner(db, random));
+                    winner.setCustomer(TicketTable.ticketOwner(db, tickets.get(random).getId()));
                     winners.add(winner);
                     WinnerTable.insert(db, winner);
 
@@ -81,6 +84,36 @@ public class Winner {
                 }
             }
         }
+        RaffleTable.setDrawn(db, raffle.getId(), 1);
+
+        return winners;
+    }
+
+    public static ArrayList<Winner> drawMarginWinners(SQLiteDatabase db, Raffle raffle, int margin){
+        WinnerTable.deleteRaffleWinners(db, raffle.getId());
+
+        ArrayList<Winner> winners = new ArrayList<Winner>();
+        ArrayList<Ticket> tickets = TicketTable.raffleTickets(db, raffle.getId());
+        Ticket ticket;
+        Winner winner;
+        int placeCounter = 0;
+        for(int i = 0; i < tickets.size(); i++) {
+            ticket = tickets.get(i);
+            if(ticket.getTicketNo() == margin)
+            {
+                winner = new Winner();
+                winner.setRaffleId(raffle.getId());
+                winner.setTicketId(ticket.getId());
+                winner.setPlace(placeCounter);
+                winner.setCustomer(TicketTable.ticketOwner(db, ticket.getId()));
+                WinnerTable.insert(db, winner);
+
+                winners.add(winner);
+                //placeCounter++;
+                break;
+            }
+        }
+        RaffleTable.setDrawn(db, raffle.getId(), 1);
 
         return winners;
     }

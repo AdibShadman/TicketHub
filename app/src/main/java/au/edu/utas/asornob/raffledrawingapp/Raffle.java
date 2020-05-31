@@ -6,24 +6,18 @@ import java.util.Date;
 
 public class Raffle
 {
-
-
-
-  private int id;
-  private String Name;
-  private String Description;
-  private int totalTickets;
-  private double ticketPrice;
-  private Date startDate;
-  private Date endDate;
-  private String raffleType;
-  private Uri photo;
-  private int lastTicket;
-
-
-
+    private int id;
+    private String Name;
+    private String Description;
+    private int totalTickets;
+    private double ticketPrice;
+    private Date startDate;
+    private Date endDate;
+    private String raffleType;
+    private Uri photo;
+    private int lastTicket;
+    private int drawn; // 0 false, 1 true
     private int winners;
-
 
     public int getId() {
         return id;
@@ -100,11 +94,14 @@ public class Raffle
         this.lastTicket = lastTicket;
     }
 
-    public int getWinners() {
-    return winners;
-    }
+    public int getWinners() {return winners; }
 
     public void setWinners(int winners) {
         this.winners = winners;
     }
+
+    public int getDrawn() {return drawn;}
+
+    public void setDrawn(int drawn) {this.drawn = drawn;}
+
 }

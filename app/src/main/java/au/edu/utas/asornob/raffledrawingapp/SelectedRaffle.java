@@ -1,16 +1,24 @@
 package au.edu.utas.asornob.raffledrawingapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -21,6 +29,7 @@ public class SelectedRaffle extends AppCompatActivity
 {
     public static final String KEY_RAFFLE_ID = "raffleId";
     public static final int REQUEST_SALE = 0;
+    public static final int REQUEST_MARGIN = 1;
 
     int raffleId;
     double ticketPriceDouble;
@@ -48,6 +57,11 @@ public class SelectedRaffle extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_raffle);
+
+        Database databaseConnection = new Database(this);
+        final SQLiteDatabase database = databaseConnection.open();
+
+
         editRaffle = (Button) findViewById(R.id.edit_raffle);
 
         editRaffle.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +122,6 @@ public class SelectedRaffle extends AppCompatActivity
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "Start Date: " +raffleStartDate.getText().toString() + "\nRaffle Name: " +
                         raffleName.getText().toString() + " \nRaffle Description: " + raffleDescription.getText().toString() + " \nRaffle Type: " + raffleType.getText().toString());
                 sendIntent.setType("text/plain");
-
                 startActivity(Intent.createChooser(sendIntent, "Share via..."));
             }
         });
@@ -119,6 +132,9 @@ public class SelectedRaffle extends AppCompatActivity
         raffleDescription.setText(getIntent().getStringExtra("description"));
         raffleType.setText(getIntent().getStringExtra("raffle_type"));
         ticketPriceDouble = getIntent().getDoubleExtra("ticket_price",0.0);
+
+        //sorry
+        final Raffle raffle = RaffleTable.selectRaffle(database, raffleId);
 
         String StringTicketPrice = Double.toString(ticketPriceDouble);
         ticketPrice.setText(StringTicketPrice);
@@ -148,12 +164,64 @@ public class SelectedRaffle extends AppCompatActivity
         });
 
         btnSelectWinner = (Button) findViewById(R.id.select_winner);
+        if(raffle.getDrawn() == 1) {
+            btnSelectWinner.setText("VIEW WINNER(s)");
+        }
         btnSelectWinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
-                i.putExtra(KEY_RAFFLE_ID, raffleId);
-                startActivity(i);
+                if(raffle.getDrawn() == 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SelectedRaffle.this);
+                    builder.setTitle("Draw Raffle");
+                    builder.setMessage("Are you sure you want to draw the raffle?");
+
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int num) {
+                            if (getIntent().getStringExtra("raffle_type").compareToIgnoreCase("normal") == 0) {
+                                Log.d("State: ", "drawing raffle");
+                                Winner.drawWinners(database, raffle);
+                                Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
+                                i.putExtra(KEY_RAFFLE_ID, raffleId);
+                                startActivity(i);
+                            } else if (getIntent().getStringExtra("raffle_type").compareToIgnoreCase("marginal") == 0) {
+                                Intent i = new Intent(SelectedRaffle.this, DrawMargin.class);
+                                i.putExtra(KEY_RAFFLE_ID, raffleId);
+                                startActivityForResult(i, REQUEST_MARGIN);
+                            }
+                        }
+                    });
+
+                    builder.setCancelable(true);
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
+                }
+                else if (raffle.getDrawn() == 1)
+                {
+                    Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
+                    i.putExtra(KEY_RAFFLE_ID, raffleId);
+                    startActivity(i);
+                }
+                /*LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = inflater.inflate(R.layout.popup_draw_confirmation, null);
+
+                int width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
+                int height = ConstraintLayout.LayoutParams.WRAP_CONTENT;
+                final PopupWindow confirmationPopup = new PopupWindow(popupView, width, height, true);
+                confirmationPopup.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+                Button yesButton = (Button) findViewById(R.id.btnDrawPopupYes);
+                yesButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
+                        i.putExtra(KEY_RAFFLE_ID, raffleId);
+                        startActivity(i);
+                    }
+                });*/
+
             }
         });
 
@@ -213,5 +281,24 @@ public class SelectedRaffle extends AppCompatActivity
         intent.putExtra("raffle_type", raffleType.getText().toString());
 
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Database databaseConnection = new Database(this);
+        final SQLiteDatabase database = databaseConnection.open();
+
+        if(requestCode == REQUEST_MARGIN)
+        {
+            switch(resultCode) {
+                case DrawMargin.DRAWN:
+                    Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
+                    i.putExtra(KEY_RAFFLE_ID, raffleId);
+                    startActivity(i);
+                    break;
+            }
+        }
     }
 }

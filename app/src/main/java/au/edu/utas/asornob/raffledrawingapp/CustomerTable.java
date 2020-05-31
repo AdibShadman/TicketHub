@@ -60,7 +60,6 @@ public class CustomerTable {
             result = createFromCursor(c);
             return result;
     }
-
         return null;
     }
 
