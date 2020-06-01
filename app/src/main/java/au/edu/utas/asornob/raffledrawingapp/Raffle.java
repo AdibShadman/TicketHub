@@ -16,8 +16,8 @@ public class Raffle
     private String raffleType;
     private Uri photo;
     private int lastTicket;
-    private int drawn; // 0 false, 1 true
-    private int winners;
+    private int drawn = 0; // 0 false, 1 true
+    private int winners = 1;
 
     public int getId() {
         return id;

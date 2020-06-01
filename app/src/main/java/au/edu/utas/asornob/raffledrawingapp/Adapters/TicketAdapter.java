@@ -1,4 +1,4 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+
+import au.edu.utas.asornob.raffledrawingapp.R;
+import au.edu.utas.asornob.raffledrawingapp.Ticket;
 
 public class TicketAdapter extends ArrayAdapter<Ticket>
 {

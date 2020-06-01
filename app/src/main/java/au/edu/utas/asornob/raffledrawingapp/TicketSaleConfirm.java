@@ -9,6 +9,6 @@ public class TicketSaleConfirm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket_sale_confirm);
+        setContentView(R.layout.ticket_sale_confirm);
     }
 }

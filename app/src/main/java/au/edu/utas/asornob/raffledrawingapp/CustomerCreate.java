@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import au.edu.utas.asornob.raffledrawingapp.Tables.CustomerTable;
+
 public class CustomerCreate extends AppCompatActivity
 {
     public static final int VALID_CUSTOMER = 1;
@@ -25,7 +27,7 @@ public class CustomerCreate extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_create);
+        setContentView(R.layout.customer_create);
 
         customerName = (EditText) findViewById(R.id.customer_name);
         customerEmail = (EditText) findViewById(R.id.customer_email);

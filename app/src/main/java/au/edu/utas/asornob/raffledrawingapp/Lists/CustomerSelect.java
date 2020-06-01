@@ -1,4 +1,4 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Lists;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,15 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import au.edu.utas.asornob.raffledrawingapp.Adapters.CustomerAdapter;
+import au.edu.utas.asornob.raffledrawingapp.Customer;
+import au.edu.utas.asornob.raffledrawingapp.CustomerCreate;
+import au.edu.utas.asornob.raffledrawingapp.Database;
+import au.edu.utas.asornob.raffledrawingapp.R;
+import au.edu.utas.asornob.raffledrawingapp.Tables.CustomerTable;
 
 public class CustomerSelect extends AppCompatActivity {
     public static final int REQUEST_CREATE = 0;
@@ -24,7 +27,7 @@ public class CustomerSelect extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_select);
+        setContentView(R.layout.customer_select);
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();

@@ -1,4 +1,4 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Tables;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -28,9 +28,7 @@ public class RaffleTable
     public static final String KEY_DRAWN = "drawn";
 
 
-    public static final String CREATE_STATEMENT = //"DROP TABLE "
-            //+ TABLE_NAME + "; " +
-            "CREATE TABLE "
+    public static final String CREATE_STATEMENT = "CREATE TABLE "
             + TABLE_NAME
             + " (" + KEY_ID + " integer primary key autoincrement, "
             + KEY_NAME + " string not null, "
@@ -41,7 +39,7 @@ public class RaffleTable
             + KEY_TYPE + " string not null, "
             + KEY_PHOTO + " blob, "
             + KEY_LAST_TICKET + " int default 0, "
-            + KEY_WINNERS + " int default 3, "
+            + KEY_WINNERS + " int default 1, "
             + KEY_DRAWN + " int default 0"
             +");";
 
@@ -89,7 +87,9 @@ public class RaffleTable
 
         values.put(KEY_TYPE, raffle.getRaffleType());
         values.put(KEY_LAST_TICKET, raffle.getLastTicket());
-        //values.put(KEY_WINNERS, raffle.getWinners());
+        if(!(raffle.getWinners() <= 1)) {
+            values.put(KEY_WINNERS, raffle.getWinners());
+        }
         if(raffle.getPhoto() != null)
         {
             values.put(KEY_PHOTO,raffle.getPhoto().toString());
@@ -150,7 +150,9 @@ public class RaffleTable
         values.put(KEY_TYPE, raffle.getRaffleType());
         values.put(KEY_START_DATE, raffle.getStartDate().getTime());
         values.put(KEY_LAST_TICKET, raffle.getLastTicket());
-        //values.put(KEY_WINNERS, raffle.getWinners());
+        if(!(raffle.getWinners() <= 1)) {
+            values.put(KEY_WINNERS, raffle.getWinners());
+        }
         values.put(KEY_DRAWN, raffle.getDrawn());
         database.update(TABLE_NAME, values, KEY_ID +"= ?",new String[] {""+raffle.getId()});
     }

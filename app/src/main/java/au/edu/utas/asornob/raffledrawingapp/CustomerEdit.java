@@ -7,11 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Date;
+import au.edu.utas.asornob.raffledrawingapp.Lists.TicketList;
+import au.edu.utas.asornob.raffledrawingapp.Tables.CustomerTable;
 
 public class CustomerEdit extends AppCompatActivity {
     public static final int UNCHANGED = 0;
@@ -21,13 +21,13 @@ public class CustomerEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_edit);
+        setContentView(R.layout.customer_edit);
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
 
         Bundle extras = getIntent().getExtras();
-        final int id = extras.getInt(TicketList.KEY_ID, -1);
+        final int id = extras.getInt(TicketList.KEY_CUSTOMER_ID, -1);
         final Customer customer = CustomerTable.selectCustomer(database, id);
 
         String name = customer.getName();
@@ -74,8 +74,8 @@ public class CustomerEdit extends AppCompatActivity {
                     CustomerTable.updateCustomer(database, id, nameString, emailString, phoneString);
 
                     Intent returnIntent = new Intent();
-                    returnIntent.putExtra(TicketList.KEY_ID, id);
-                    setResult(CustomerEdit.CHANGED, returnIntent);
+                    returnIntent.putExtra(TicketList.KEY_CUSTOMER_ID, id);
+                    setResult(CHANGED, returnIntent);
                     //Toast.makeText(TicketSale.this, (quantity + "Ticket(s) sold"), Toast.LENGTH_SHORT).show();
                     //Intent intent = new Intent(TicketSale.this, ActivityRaffleList.class);
                     //startActivity(intent);

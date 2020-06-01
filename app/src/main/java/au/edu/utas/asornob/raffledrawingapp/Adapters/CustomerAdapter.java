@@ -1,8 +1,6 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Adapters;
 
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+
+import au.edu.utas.asornob.raffledrawingapp.Customer;
+import au.edu.utas.asornob.raffledrawingapp.Lists.CustomerSelect;
+import au.edu.utas.asornob.raffledrawingapp.R;
 
 public class CustomerAdapter extends ArrayAdapter<Customer> {
     private int mLayoutResourceID;

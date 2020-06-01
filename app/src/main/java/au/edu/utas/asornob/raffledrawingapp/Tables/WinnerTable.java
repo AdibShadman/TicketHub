@@ -1,4 +1,4 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Tables;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,6 +7,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import au.edu.utas.asornob.raffledrawingapp.Tables.TicketTable;
+import au.edu.utas.asornob.raffledrawingapp.Winner;
+
 public class WinnerTable {
     public static final String TABLE_NAME = "winner";
     public static final String KEY_ID = "id";
@@ -14,15 +17,13 @@ public class WinnerTable {
     public static final String KEY_TICKET_ID = "FK_ticket_id";
     public static final String KEY_PLACE = "place";
 
-    public static final String CREATE_STATEMENT = //"DROP TABLE "
-            //+ TABLE_NAME + "; "
-            "CREATE TABLE "
-                    + TABLE_NAME
-                    + " (" + KEY_ID + " integer primary key autoincrement, "
-                    + KEY_RAFFLE_ID + " int not null, "
-                    + KEY_TICKET_ID + " int not null, "
-                    + KEY_PLACE + " int not null"
-                    +" );";
+    public static final String CREATE_STATEMENT = "CREATE TABLE "
+            + TABLE_NAME
+            + " (" + KEY_ID + " integer primary key autoincrement, "
+            + KEY_RAFFLE_ID + " int not null, "
+            + KEY_TICKET_ID + " int not null, "
+            + KEY_PLACE + " int not null"
+            +" );";
 
     public static int insert(SQLiteDatabase database, Winner winner) {
         ContentValues values = new ContentValues();

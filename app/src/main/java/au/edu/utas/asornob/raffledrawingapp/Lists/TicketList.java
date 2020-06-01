@@ -1,6 +1,5 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Lists;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,9 +14,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import au.edu.utas.asornob.raffledrawingapp.Adapters.TicketAdapter;
+import au.edu.utas.asornob.raffledrawingapp.CustomerDetails;
+import au.edu.utas.asornob.raffledrawingapp.CustomerEdit;
+import au.edu.utas.asornob.raffledrawingapp.Database;
+import au.edu.utas.asornob.raffledrawingapp.R;
+import au.edu.utas.asornob.raffledrawingapp.RaffleSelected;
+import au.edu.utas.asornob.raffledrawingapp.Tables.TicketTable;
+import au.edu.utas.asornob.raffledrawingapp.Ticket;
+import au.edu.utas.asornob.raffledrawingapp.TicketDetails;
+
 public class TicketList extends AppCompatActivity {
     public static final int REQUEST_DETAILS = 0;
-    public final static String KEY_ID = "id";
+    public final static String KEY_CUSTOMER_ID = "customerId";
+    public final static String KEY_TICKET_ID = "ticketId";
     public SearchView sv;
     public TicketAdapter ticketAdapter;
     public ArrayList<Ticket> tickets;
@@ -27,13 +37,13 @@ public class TicketList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket_list);
+        setContentView(R.layout.ticket_list);
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
 
         Bundle extras = getIntent().getExtras();
-        final int id = extras.getInt(SelectedRaffle.KEY_RAFFLE_ID, -1);
+        final int id = extras.getInt(RaffleSelected.KEY_RAFFLE_ID, -1);
         //Raffle raffle = RaffleTable.selectRaffle(database, id);
 
          tickets = TicketTable.raffleTickets(database, id);
@@ -53,8 +63,9 @@ public class TicketList extends AppCompatActivity {
             {
 
                 // View customer details
-                Intent i = new Intent(TicketList.this, CustomerDetails.class);
-                i.putExtra(KEY_ID, tickets.get(position).getCustomer().getId());
+                Intent i = new Intent(TicketList.this, TicketDetails.class);
+                i.putExtra(KEY_CUSTOMER_ID, tickets.get(position).getCustomer().getId());
+                i.putExtra(KEY_TICKET_ID, tickets.get(position).getId());
                 startActivityForResult(i, REQUEST_DETAILS);
                 // |-> Edit details
             }
@@ -113,11 +124,15 @@ public class TicketList extends AppCompatActivity {
         {
             switch(resultCode) {
                 case CustomerEdit.CHANGED:
-                    int customerId = data.getIntExtra(TicketList.KEY_ID, -1);
+                    //int ticketId = data.getIntExtra(TicketList.KEY_TICKET_ID, -1);
                     // Reload list
                     Intent i = getIntent();
-                    finish();
                     startActivity(i);
+                    finish();
+                    //reload details
+//                    Intent details = new Intent(TicketList.this, TicketDetails.class);
+//                    details.putExtra(KEY_TICKET_ID, ticketId);
+//                    startActivityForResult(details, REQUEST_DETAILS);
                     break;
             }
         }

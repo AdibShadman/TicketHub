@@ -1,4 +1,4 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Adapters;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+
+import au.edu.utas.asornob.raffledrawingapp.R;
+import au.edu.utas.asornob.raffledrawingapp.Raffle;
 
 public class RaffleAdapter extends ArrayAdapter<Raffle>
 {
@@ -39,8 +42,12 @@ public class RaffleAdapter extends ArrayAdapter<Raffle>
         raffleName.setText(raffle.getName());
         TextView raffleDescription = row.findViewById(R.id.raffle_description);
         raffleDescription.setText(raffle.getDescription());
-
-       
+        //TextView raffleDrawn = row.findViewById(R.id.raffle_drawn_status);
+        //if(raffle.drawn == 0) {
+        //raffleDrawn.setText("Running");
+        //}
+        //else {
+        // raffleDrawn.setText("Finished");
         return row;
 
     }

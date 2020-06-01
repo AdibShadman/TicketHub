@@ -22,10 +22,13 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,10 +36,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CreateRaffle extends AppCompatActivity
+import au.edu.utas.asornob.raffledrawingapp.Lists.RaffleList;
+import au.edu.utas.asornob.raffledrawingapp.Tables.RaffleTable;
+
+public class RaffleCreate extends AppCompatActivity
 {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Button addRaffleButtonInRaffleForm;
@@ -45,22 +52,23 @@ public class CreateRaffle extends AppCompatActivity
     private EditText raffleDescription;
     private EditText raffleTotalTickets;
     private EditText raffleTicketPrice;
+    private EditText raffleWinners;
     private TextView startDate;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private DatePickerDialog.OnDateSetListener mDateSetListener2;
-    private EditText raffleType;
     private ImageView image;
     private Uri currentPhotoUri;
     private String currentPhotoPath;
     private Button imageButton;
 
+    private String stringRaffleType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_raffle);
+        setContentView(R.layout.raffle_create);
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
 
@@ -77,6 +85,34 @@ public class CreateRaffle extends AppCompatActivity
 
         image = (ImageView)findViewById(R.id.image_view);
 
+        raffleWinners = (EditText) findViewById(R.id.raffle_entry_winners);
+
+        ArrayList<String> types = new ArrayList<String>();
+        types.add("Normal"); types.add("Marginal");
+        final Spinner raffleType = (Spinner) findViewById(R.id.raffle_type);
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                types);
+        raffleType.setAdapter(typeAdapter);
+        raffleType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                stringRaffleType = String.valueOf(raffleType.getSelectedItem());
+                if(stringRaffleType.compareToIgnoreCase("marginal") == 0) {
+                    raffleWinners.setEnabled(false);
+                }
+                else {
+                    raffleWinners.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         startDate = (TextView) findViewById(R.id.start_date_text_view);
         startDate.setOnClickListener(new View.OnClickListener()
         {
@@ -87,7 +123,7 @@ public class CreateRaffle extends AppCompatActivity
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(CreateRaffle.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDateSetListener,year, month, day );
+                DatePickerDialog dialog = new DatePickerDialog(RaffleCreate.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDateSetListener,year, month, day );
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -125,11 +161,6 @@ public class CreateRaffle extends AppCompatActivity
             }
         };
 
-
-
-
-
-
                 addRaffleButtonInRaffleForm = (Button) findViewById(R.id.add_raffle_button);
                 addRaffleButtonInRaffleForm.setOnClickListener(new View.OnClickListener()
         {
@@ -140,35 +171,25 @@ public class CreateRaffle extends AppCompatActivity
                 raffleDescription = (EditText) findViewById(R.id.raffle_entry_description);
                 raffleTotalTickets = (EditText) findViewById(R.id.raffle_entry_total_tickets);
                 raffleTicketPrice = (EditText) findViewById(R.id.raffle_ticket_price);
-                raffleType = (EditText) findViewById(R.id.raffle_type);
-
-
-
 
                 if (!canSubmit())
                 {
-                    new AlertDialog.Builder(CreateRaffle.this).setTitle("Raffle Requires More Information")
-                            .setMessage("Raffle form Must Include: Raffle Name, Description, TicketPrice,Total Tickets, Raffle Type, Start Date and End date")
+                    new AlertDialog.Builder(RaffleCreate.this).setTitle("Form Incomplete")
+                            .setMessage("Please include a name, description, price, total tickets, raffle type, and start date")
                             .setPositiveButton("Okay", null).show();
                 }
                 else
                 {
-
-
-
                         String stringRaffleName = raffleName.getText().toString();
                         String stringRaffleDescription = raffleDescription.getText().toString();
                         int integerTotalTickets = Integer.parseInt(raffleTotalTickets.getText().toString());
                         Double doubleTicketPrice = Double.parseDouble(raffleTicketPrice.getText().toString());
-                        String stringRaffleType = raffleType.getText().toString();
+                        Log.d("Type: ", stringRaffleType);
 
+                    SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date newStartDate = new Date();
 
-
-                        SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date newStartDate = new Date();
-
-
-                        try
+                    try
                         {
                             newStartDate = newDateFormat.parse(startDate.getText().toString());
 
@@ -186,28 +207,30 @@ public class CreateRaffle extends AppCompatActivity
                         raffle.setTotalTickets(integerTotalTickets);
                         raffle.setTicketPrice(doubleTicketPrice);
                         raffle.setStartDate(newStartDate);
-
-                        raffle.setRaffleType(stringRaffleType);
                         raffle.setPhoto(currentPhotoUri);
+                        raffle.setRaffleType(stringRaffleType);
+                        if(stringRaffleType.equalsIgnoreCase("Normal")){
+                            int integerWinners = Integer.parseInt(raffleWinners.getText().toString());
+                            raffle.setWinners(integerWinners);
+                        }
 
                         RaffleTable.insert(database, raffle);
 
-                        Toast.makeText(CreateRaffle.this, "New Raffle inserted", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CreateRaffle.this, ActivityRaffleList.class);
+                        finish();
+
+                        Toast.makeText(RaffleCreate.this, "New Raffle inserted", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RaffleCreate.this, RaffleList.class);
                         startActivity(intent);
                     }
 
                     else
                     {
-                        new AlertDialog.Builder(CreateRaffle.this).setTitle("Mismatch Raffle Type")
+                        new AlertDialog.Builder(RaffleCreate.this).setTitle("Mismatch Raffle Type")
                                 .setMessage("Raffle type should be either Normal or Marginal")
                                 .setPositiveButton("Okay", null).show();
                     }
 
                 }
-
-
-
             }
         });
     }
@@ -235,15 +258,19 @@ public class CreateRaffle extends AppCompatActivity
          canSubmit = false;
 
      }
-     if(TextUtils.isEmpty(raffleType.getText()))
-     {
-         canSubmit = false;
-
-     }
      if(TextUtils.isEmpty(startDate.getText()))
      {
          canSubmit = false;
-
+     }
+     if(stringRaffleType.compareTo("") == 0)
+     {
+         canSubmit = false;
+     }
+     else if(stringRaffleType.compareToIgnoreCase("Normal") == 0){
+         if(TextUtils.isEmpty(raffleWinners.getText()))
+         {
+             canSubmit = false;
+         }
      }
 
 
@@ -253,7 +280,7 @@ public class CreateRaffle extends AppCompatActivity
  private void  requestToTakeAPicture()
  {
      ActivityCompat.requestPermissions(
-             CreateRaffle.this,
+             RaffleCreate.this,
              new String[]{Manifest.permission.CAMERA},
              REQUEST_IMAGE_CAPTURE);
  }
@@ -338,7 +365,5 @@ public class CreateRaffle extends AppCompatActivity
         Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
         image.setImageBitmap(bitmap);
     }
-
-
 
 }

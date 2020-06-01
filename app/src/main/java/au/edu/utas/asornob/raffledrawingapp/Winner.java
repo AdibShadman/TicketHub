@@ -5,6 +5,10 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import au.edu.utas.asornob.raffledrawingapp.Tables.RaffleTable;
+import au.edu.utas.asornob.raffledrawingapp.Tables.TicketTable;
+import au.edu.utas.asornob.raffledrawingapp.Tables.WinnerTable;
+
 public class Winner {
 
     private int id;
@@ -61,12 +65,11 @@ public class Winner {
 
         ArrayList<Winner> winners = new ArrayList<Winner>();
         ArrayList<Ticket> tickets = TicketTable.raffleTickets(db, raffle.getId());
-        for(int i = 0; i < raffle.getWinners(); i++) {
-            Log.d("Ticket: ", ""+ tickets.get(i).getId());
+        for(int i = 0; i < Math.min(raffle.getWinners(), tickets.size()); i++) {
             boolean found = false;
             int c = 0;
             Winner winner;
-            while(!found && c < raffle.getTotalTickets() * 20) {
+            while(!found && c < raffle.getTotalTickets() * 10) {
                 int random = (int) (Math.random() * tickets.size());
                 if(tickets.get(random) != null) {
                     winner = new Winner();
@@ -99,6 +102,7 @@ public class Winner {
         int placeCounter = 0;
         for(int i = 0; i < tickets.size(); i++) {
             ticket = tickets.get(i);
+            Log.d("Ticket: ", ticket.getTicketNo() + ", Cust: " + ticket.getCustomer().getName());
             if(ticket.getTicketNo() == margin)
             {
                 winner = new Winner();
@@ -114,7 +118,6 @@ public class Winner {
             }
         }
         RaffleTable.setDrawn(db, raffle.getId(), 1);
-
         return winners;
     }
 }

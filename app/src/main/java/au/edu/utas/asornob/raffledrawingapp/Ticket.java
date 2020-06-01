@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.Date;
 
+import au.edu.utas.asornob.raffledrawingapp.Tables.CustomerTable;
+import au.edu.utas.asornob.raffledrawingapp.Tables.TicketTable;
+
 public class Ticket
 {
   private int id;

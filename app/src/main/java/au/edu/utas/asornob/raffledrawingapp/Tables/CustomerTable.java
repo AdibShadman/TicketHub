@@ -1,4 +1,4 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Tables;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,9 +17,7 @@ public class CustomerTable {
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PHONE = "phone";
 
-    public static final String CREATE_STATEMENT = //"DROP TABLE "
-            //+ TABLE_NAME + "; "
-            "CREATE TABLE "
+    public static final String CREATE_STATEMENT = "CREATE TABLE "
             + TABLE_NAME
             + " (" + KEY_ID + " integer primary key autoincrement, "
             + KEY_NAME + " string not null, "

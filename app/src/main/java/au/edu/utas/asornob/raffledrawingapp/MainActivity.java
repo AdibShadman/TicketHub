@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import au.edu.utas.asornob.raffledrawingapp.Lists.RaffleList;
+import au.edu.utas.asornob.raffledrawingapp.Tables.RaffleTable;
+
 public class MainActivity extends AppCompatActivity 
 {
     private Button addButton;
@@ -19,50 +22,28 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, ActivityRaffleList.class);
+
+        finish();
+
+        Intent intent = new Intent(this, RaffleList.class);
         startActivity(intent);
-      deleteRaffles();
-      /*  Database databaseConnection = new Database(this);
-        final SQLiteDatabase db = databaseConnection.open();
-        db.execSQL(TicketTable.CREATE_STATEMENT);
-        db.execSQL(CustomerTable.CREATE_STATEMENT);*/
-
-        addButton = (Button) findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCreateRaffleActivity();
-
-            }
-
-        });
-
-        listViewButton = (Button) findViewById(R.id.list_view_button);
-        listViewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivityRaffleList();
-            }
-
-
-        });
     }
     public void openCreateRaffleActivity()
     {
-        Intent intent = new Intent(this, CreateRaffle.class);
+        Intent intent = new Intent(this, RaffleCreate.class);
         startActivity(intent);
     }
 
         public void openActivityRaffleList()
         {
-            Intent intent = new Intent(this, ActivityRaffleList.class);
+            Intent intent = new Intent(this, RaffleList.class);
             startActivity(intent);
         }
 
-    private void deleteRaffles() {
+    /*private void deleteRaffles() {
         Database databaseConnection = new Database(this);
         final SQLiteDatabase db = databaseConnection.open();
 
         RaffleTable.delete(db);
-    }
+    }*/
 }

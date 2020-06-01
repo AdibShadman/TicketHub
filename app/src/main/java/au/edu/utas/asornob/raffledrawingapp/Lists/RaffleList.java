@@ -1,10 +1,9 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Lists;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SearchEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,7 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class ActivityRaffleList extends AppCompatActivity
+import au.edu.utas.asornob.raffledrawingapp.Adapters.RaffleAdapter;
+import au.edu.utas.asornob.raffledrawingapp.Database;
+import au.edu.utas.asornob.raffledrawingapp.R;
+import au.edu.utas.asornob.raffledrawingapp.Raffle;
+import au.edu.utas.asornob.raffledrawingapp.RaffleCreate;
+import au.edu.utas.asornob.raffledrawingapp.RaffleSelected;
+import au.edu.utas.asornob.raffledrawingapp.Tables.RaffleTable;
+
+public class RaffleList extends AppCompatActivity
 {
     private ListView raffleListView;
     private Button addButtonFromRaffleList;
@@ -26,7 +33,7 @@ public class ActivityRaffleList extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_raffle_list);
+        setContentView(R.layout.raffle_list);
         raffleListView = (ListView) findViewById(R.id.raffle_list);
         addButtonFromRaffleList = (Button) findViewById(R.id.add_raffle_from_listview);
         addButtonFromRaffleList.setOnClickListener(new View.OnClickListener() {
@@ -34,7 +41,6 @@ public class ActivityRaffleList extends AppCompatActivity
             public void onClick(View v)
             {
                 openCreateRaffleActivity();
-
             }
 
         });
@@ -55,7 +61,7 @@ public class ActivityRaffleList extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l)
             {
-              Intent i = new Intent(ActivityRaffleList.this, SelectedRaffle.class);
+              Intent i = new Intent(RaffleList.this, RaffleSelected.class);
 
               i.putExtra("id", raffles.get(position).getId());
               i.putExtra("name", raffles.get(position).getName());
@@ -120,7 +126,7 @@ public class ActivityRaffleList extends AppCompatActivity
 
     public void openCreateRaffleActivity()
     {
-        Intent intent = new Intent(ActivityRaffleList.this, CreateRaffle.class);
+        Intent intent = new Intent(RaffleList.this, RaffleCreate.class);
         startActivity(intent);
     }
 

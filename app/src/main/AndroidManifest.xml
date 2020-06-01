@@ -17,22 +17,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditRaffle"></activity>
-        <activity android:name=".SelectedRaffle" />
+        <activity android:name=".RaffleEdit"></activity>
+        <activity android:name=".RaffleSelected" />
         <activity android:name=".TicketSaleConfirm" />
         <activity android:name=".CustomerCreate" />
-        <activity android:name=".CustomerSelect" />
+        <activity android:name=".Lists.CustomerSelect" />
         <activity android:name=".TicketSale" />
-        <activity android:name=".TicketList"
+        <activity android:name=".Lists.TicketList"
             android:windowSoftInputMode="adjustPan"/>
-
-        <activity android:name=".CreateRaffle" />
-        <activity android:name=".ActivityRaffleList"
+        <activity android:name=".RaffleCreate" />
+        <activity android:name=".Lists.RaffleList"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".CustomerDetails" />
         <activity android:name=".CustomerEdit" />
-        <activity android:name=".WinnerList" />
+        <activity android:name=".Lists.WinnerList" />
         <activity android:name=".DrawMargin" />
+        <activity android:name=".TicketDetails" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

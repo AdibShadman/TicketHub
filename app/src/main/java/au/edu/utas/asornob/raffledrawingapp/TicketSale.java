@@ -17,7 +17,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import au.edu.utas.asornob.raffledrawingapp.Lists.CustomerSelect;
+import au.edu.utas.asornob.raffledrawingapp.Tables.CustomerTable;
+import au.edu.utas.asornob.raffledrawingapp.Tables.RaffleTable;
+import au.edu.utas.asornob.raffledrawingapp.Tables.TicketTable;
 
 public class TicketSale extends AppCompatActivity {
     public static final int REQUEST_CUSTOMER = 0;
@@ -35,7 +39,7 @@ public class TicketSale extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket_sale);
+        setContentView(R.layout.ticket_sale);
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
@@ -48,7 +52,7 @@ public class TicketSale extends AppCompatActivity {
         RaffleTable.insert(database, insRaffle);*/
 
         Bundle extras = getIntent().getExtras();
-        final int id = extras.getInt(SelectedRaffle.KEY_RAFFLE_ID, -1);
+        final int id = extras.getInt(RaffleSelected.KEY_RAFFLE_ID, -1);
         final Raffle raffle = RaffleTable.selectRaffle(database, id);
 
         remainingTickets = raffle.getTotalTickets() - raffle.getLastTicket();
@@ -142,6 +146,7 @@ public class TicketSale extends AppCompatActivity {
                     ticket.setPurchaseTime(new Date());
                     ticket.setCustomer(customer);
                     ticket.setRaffleId(id);
+                    ticket.setPurchaseTime(new Date());
                     if(raffle.getRaffleType().compareToIgnoreCase("normal") == 0) {
                         ticket.setTicketNo(raffle.getLastTicket() + 1);
 
@@ -170,13 +175,13 @@ public class TicketSale extends AppCompatActivity {
 
                                 if(!ticketNos.contains(random)) {
                                     ticket.setTicketNo(random);
+                                    ticketNos.add(random);
                                     found = true;
                                 }
 
                                 c++;
                             }
                             TicketTable.insert(database, ticket);
-
                         }
 
                         RaffleTable.setLastTicket(database, raffle.getId(), raffle.getLastTicket() + quantity);

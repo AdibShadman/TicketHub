@@ -1,14 +1,16 @@
-package au.edu.utas.asornob.raffledrawingapp;
+package au.edu.utas.asornob.raffledrawingapp.Tables;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import au.edu.utas.asornob.raffledrawingapp.Customer;
-import au.edu.utas.asornob.raffledrawingapp.CustomerTable;
 import au.edu.utas.asornob.raffledrawingapp.Ticket;
 
 public class TicketTable {
@@ -20,12 +22,10 @@ public class TicketTable {
     public static final String CUSTOMER_ID = "FK_customer";
     public static final String TICKET_NO = "TicketNo";
 
-    public static final String CREATE_STATEMENT = //"DROP TABLE "
-            //+ TABLE_NAME + "; " +
-            "CREATE TABLE "
+    public static final String CREATE_STATEMENT = "CREATE TABLE "
             + TABLE_NAME
             + " (" + KEY_ID + " integer primary key autoincrement, "
-            //+ KEY_PURCHASE_TIME + " datetime not null, "
+            + KEY_PURCHASE_TIME + " text not null, "
             + KEY_PRICE + " double not null, "
             + RAFFLE_ID + " integer not null, " //not null
             + CUSTOMER_ID + " integer not null, " //not null
@@ -34,11 +34,12 @@ public class TicketTable {
 
     public static void insert(SQLiteDatabase database, Ticket ticket) {
         ContentValues values = new ContentValues();
-        //values.put(KEY_PURCHASE_TIME, ticket.getPurchaseTime().toString());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        values.put(KEY_PURCHASE_TIME, dateFormat.format(ticket.getPurchaseTime()));
         values.put(KEY_PRICE, ticket.getPrice());
         values.put(RAFFLE_ID, ticket.getRaffleId());
         values.put(CUSTOMER_ID, ticket.getCustomer().getId());
-
         values.put(TICKET_NO, ticket.getTicketNo());
         database.insert(TABLE_NAME, null, values);
     }
@@ -54,13 +55,18 @@ public class TicketTable {
             Ticket ticket = new Ticket();
 
             int customerId = c.getInt(c.getColumnIndex(CUSTOMER_ID));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             Customer customer = CustomerTable.selectCustomer(db, customerId);
-            Log.d("customer: ", customer.getName());
 
             ticket.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-            //ticket.setPurchaseTime(c.getType(c.getColumnIndex(KEY_ID)));
+            try {
+                ticket.setPurchaseTime(dateFormat.parse(c.getString(c.getColumnIndex(KEY_PURCHASE_TIME))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             ticket.setPrice(c.getDouble(c.getColumnIndex(KEY_PRICE)));
+            Log.d("price: ", "" + c.getDouble(c.getColumnIndex(KEY_PRICE)));
             ticket.setCustomer(customer);
             ticket.setRaffleId(c.getInt(c.getColumnIndex(RAFFLE_ID)));
             ticket.setTicketNo(c.getInt(c.getColumnIndex(TICKET_NO)));

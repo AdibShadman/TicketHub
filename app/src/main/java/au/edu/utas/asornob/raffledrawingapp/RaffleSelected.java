@@ -2,30 +2,29 @@ package au.edu.utas.asornob.raffledrawingapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SelectedRaffle extends AppCompatActivity
+import au.edu.utas.asornob.raffledrawingapp.Lists.RaffleList;
+import au.edu.utas.asornob.raffledrawingapp.Lists.TicketList;
+import au.edu.utas.asornob.raffledrawingapp.Lists.WinnerList;
+import au.edu.utas.asornob.raffledrawingapp.Tables.RaffleTable;
+
+public class RaffleSelected extends AppCompatActivity
 {
     public static final String KEY_RAFFLE_ID = "raffleId";
     public static final int REQUEST_SALE = 0;
@@ -56,11 +55,10 @@ public class SelectedRaffle extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selected_raffle);
+        setContentView(R.layout.selected_raffle);
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
-
 
         editRaffle = (Button) findViewById(R.id.edit_raffle);
 
@@ -95,7 +93,7 @@ public class SelectedRaffle extends AppCompatActivity
                 }
                 else
                 {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(SelectedRaffle.this);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(RaffleSelected.this);
                     alert.setTitle("Can't Delete Raffle");
                     alert.setMessage("This raffle has already been started");
                     alert.setPositiveButton("OK",null);
@@ -144,20 +142,25 @@ public class SelectedRaffle extends AppCompatActivity
         raffleStartDate.setText(startDateString2);
 
         btnListTickets = (Button) findViewById(R.id.sell_tickets);
-        btnListTickets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(SelectedRaffle.this, TicketSale.class);
-                i.putExtra(KEY_RAFFLE_ID, raffleId);
-                startActivityForResult(i, REQUEST_SALE);
-            }
-        });
+        if(raffle.getLastTicket() < raffle.getTotalTickets() && raffle.getDrawn() == 0) {
+            btnListTickets.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(RaffleSelected.this, TicketSale.class);
+                    i.putExtra(KEY_RAFFLE_ID, raffleId);
+                    startActivityForResult(i, REQUEST_SALE);
+                }
+            });
+        }
+        else {
+            btnListTickets.setEnabled(false);
+        }
 
         btnListTickets = (Button) findViewById(R.id.list_tickets);
         btnListTickets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SelectedRaffle.this, TicketList.class);
+                Intent i = new Intent(RaffleSelected.this, TicketList.class);
                 i.putExtra(KEY_RAFFLE_ID, raffleId);
                 startActivity(i);
             }
@@ -165,13 +168,16 @@ public class SelectedRaffle extends AppCompatActivity
 
         btnSelectWinner = (Button) findViewById(R.id.select_winner);
         if(raffle.getDrawn() == 1) {
-            btnSelectWinner.setText("VIEW WINNER(s)");
+            btnSelectWinner.setText("VIEW WINNER(s) [" + raffle.getWinners() + "]");
+        }
+        else {
+            btnSelectWinner.setText("SELECT WINNER(s) [" + raffle.getWinners() + "]");
         }
         btnSelectWinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(raffle.getDrawn() == 0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SelectedRaffle.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RaffleSelected.this);
                     builder.setTitle("Draw Raffle");
                     builder.setMessage("Are you sure you want to draw the raffle?");
 
@@ -180,11 +186,11 @@ public class SelectedRaffle extends AppCompatActivity
                             if (getIntent().getStringExtra("raffle_type").compareToIgnoreCase("normal") == 0) {
                                 Log.d("State: ", "drawing raffle");
                                 Winner.drawWinners(database, raffle);
-                                Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
+                                Intent i = new Intent(RaffleSelected.this, WinnerList.class);
                                 i.putExtra(KEY_RAFFLE_ID, raffleId);
                                 startActivity(i);
                             } else if (getIntent().getStringExtra("raffle_type").compareToIgnoreCase("marginal") == 0) {
-                                Intent i = new Intent(SelectedRaffle.this, DrawMargin.class);
+                                Intent i = new Intent(RaffleSelected.this, DrawMargin.class);
                                 i.putExtra(KEY_RAFFLE_ID, raffleId);
                                 startActivityForResult(i, REQUEST_MARGIN);
                             }
@@ -199,7 +205,7 @@ public class SelectedRaffle extends AppCompatActivity
                 }
                 else if (raffle.getDrawn() == 1)
                 {
-                    Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
+                    Intent i = new Intent(RaffleSelected.this, WinnerList.class);
                     i.putExtra(KEY_RAFFLE_ID, raffleId);
                     startActivity(i);
                 }
@@ -250,12 +256,12 @@ public class SelectedRaffle extends AppCompatActivity
                        Raffle deletedRaffle = new Raffle();
                        deletedRaffle.setId(raffleId);
 
-                       Database databaseConnection = new Database(SelectedRaffle.this);
+                       Database databaseConnection = new Database(RaffleSelected.this);
                         SQLiteDatabase database = databaseConnection.open();
 
                         RaffleTable raffle = new RaffleTable();
                         raffle.deleteById(database, deletedRaffle);
-                        startActivity(new Intent(SelectedRaffle.this, ActivityRaffleList.class));
+                        startActivity(new Intent(RaffleSelected.this, RaffleList.class));
                         break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -272,7 +278,7 @@ public class SelectedRaffle extends AppCompatActivity
 
     private void editRaffle()
     {
-        Intent intent = new Intent(SelectedRaffle.this, EditRaffle.class);
+        Intent intent = new Intent(RaffleSelected.this, RaffleEdit.class);
         intent.putExtra("id",raffleId);
         intent.putExtra("name", raffleName.getText().toString());
         intent.putExtra("description", raffleDescription.getText().toString());
@@ -294,7 +300,7 @@ public class SelectedRaffle extends AppCompatActivity
         {
             switch(resultCode) {
                 case DrawMargin.DRAWN:
-                    Intent i = new Intent(SelectedRaffle.this, WinnerList.class);
+                    Intent i = new Intent(RaffleSelected.this, WinnerList.class);
                     i.putExtra(KEY_RAFFLE_ID, raffleId);
                     startActivity(i);
                     break;

@@ -5,6 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import au.edu.utas.asornob.raffledrawingapp.Tables.CustomerTable;
+import au.edu.utas.asornob.raffledrawingapp.Tables.RaffleTable;
+import au.edu.utas.asornob.raffledrawingapp.Tables.TicketTable;
+import au.edu.utas.asornob.raffledrawingapp.Tables.WinnerTable;
+
 public class Database
 {
     //This is the tag that is used for the Logcat output (useful for filtering output)
@@ -14,7 +19,7 @@ public class Database
     private static final String DATABASE_NAME = "RaffleDatabase";
 
     //The version of the database. Increment this whenever you change the /structure/ of the database
-    private static final int   DATABASE_VERSION   = 12;
+    private static final int   DATABASE_VERSION   = 15;
 
     //The connection to the database itself
     private SQLiteDatabase mDb;

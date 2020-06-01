@@ -10,19 +10,22 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import au.edu.utas.asornob.raffledrawingapp.Lists.TicketList;
+import au.edu.utas.asornob.raffledrawingapp.Tables.CustomerTable;
+
 public class CustomerDetails extends AppCompatActivity {
     public static final int REQUEST_EDIT = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_details);
+        setContentView(R.layout.customer_details);
 
         Database databaseConnection = new Database(this);
         final SQLiteDatabase database = databaseConnection.open();
 
         Bundle extras = getIntent().getExtras();
-        final int id = extras.getInt(TicketList.KEY_ID, -1);
+        final int id = extras.getInt(TicketList.KEY_CUSTOMER_ID, -1);
         final Customer customer = CustomerTable.selectCustomer(database, id);
 
         TextView txtName = (TextView) findViewById(R.id.txtDetailName);
@@ -38,7 +41,7 @@ public class CustomerDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CustomerDetails.this, CustomerEdit.class);
-                i.putExtra(TicketList.KEY_ID, customer.getId());
+                i.putExtra(TicketList.KEY_CUSTOMER_ID, customer.getId());
                 startActivityForResult(i, REQUEST_EDIT);
             }
         });
@@ -54,10 +57,10 @@ public class CustomerDetails extends AppCompatActivity {
         {
             switch(resultCode) {
                 case CustomerEdit.CHANGED:
-                    int customerId = data.getIntExtra(TicketList.KEY_ID, -1);
+                    int customerId = data.getIntExtra(TicketList.KEY_CUSTOMER_ID, -1);
                     //Customer customer = CustomerTable.selectCustomer(database, customerId);
                     Intent returnIntent = new Intent();
-                    returnIntent.putExtra(TicketList.KEY_ID, customerId);
+                    returnIntent.putExtra(TicketList.KEY_CUSTOMER_ID, customerId);
 
                     setResult(CustomerEdit.CHANGED, returnIntent);
                     finish();

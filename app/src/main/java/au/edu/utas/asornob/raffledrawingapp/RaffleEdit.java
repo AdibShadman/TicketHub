@@ -21,7 +21,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EditRaffle extends AppCompatActivity
+import au.edu.utas.asornob.raffledrawingapp.Lists.RaffleList;
+import au.edu.utas.asornob.raffledrawingapp.Tables.RaffleTable;
+
+public class RaffleEdit extends AppCompatActivity
 {
     int raffleId;
     double ticketPriceDouble;
@@ -38,7 +41,7 @@ public class EditRaffle extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_raffle);
+        setContentView(R.layout.edit_raffle);
 
 
         raffleName = (TextView) findViewById(R.id.view_raffle_name);
@@ -71,7 +74,7 @@ public class EditRaffle extends AppCompatActivity
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(EditRaffle.this, android.R.style.Theme_DeviceDefault_Dialog_MinWidth, mDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(RaffleEdit.this, android.R.style.Theme_DeviceDefault_Dialog_MinWidth, mDateSetListener, year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -121,7 +124,7 @@ public class EditRaffle extends AppCompatActivity
                 {
                     case DialogInterface.BUTTON_POSITIVE:
                         sendUpdate();
-                        startActivity(new Intent(EditRaffle.this, ActivityRaffleList.class));
+                        startActivity(new Intent(RaffleEdit.this, RaffleList.class));
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -130,7 +133,7 @@ public class EditRaffle extends AppCompatActivity
                 }
             }
         };
-        AlertDialog builder = new AlertDialog.Builder(EditRaffle.this).setTitle("Edit Raffle")
+        AlertDialog builder = new AlertDialog.Builder(RaffleEdit.this).setTitle("Edit Raffle")
                 .setMessage("Are you sure you want to modify this raffle?")
                 .setPositiveButton("Confirm", dialogClickListener)
                 .setNegativeButton("Cancel", null).show();
@@ -160,7 +163,7 @@ public class EditRaffle extends AppCompatActivity
         }
         updatedRaffle.setStartDate(updatedStartDate);
 
-        Database databaseHandler = new Database(EditRaffle.this);
+        Database databaseHandler = new Database(RaffleEdit.this);
         SQLiteDatabase database = databaseHandler.open();
 
         RaffleTable raffles = new RaffleTable();
