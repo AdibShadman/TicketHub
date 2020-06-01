@@ -38,7 +38,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket>
         TextView txtName = (TextView) convertView.findViewById(R.id.txtCustomer);
         txtName.setText(ticket.getCustomer().getName());
         TextView txtPhone = (TextView)convertView.findViewById(R.id.txtQuant);
-        txtPhone.setText(ticket.getCustomer().getPhone());
+        txtPhone.setText("Ticket " + ticket.getTicketNo());
 
         return convertView;
     }
