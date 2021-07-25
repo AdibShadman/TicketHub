@@ -7,11 +7,14 @@ Download and install Android Studio:  https://developer.android.com/studio
 
 How to run: 
 
-1. Download the git. Open Android studio. Build the gardle and run
+1. Download the git. Open Android studio. Build the gradle and run
 
 Built with:
 
 Java
 
 Product Demonstration: https://github.com/AdibShadman/TicketHub/blob/master/pic1.png  https://github.com/AdibShadman/TicketHub/blob/master/pic3.png
+
+
+For a live demonstration of the app in the emulator, here is the link: https://vimeo.com/579136020
 
